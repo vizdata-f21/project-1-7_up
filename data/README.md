@@ -13,6 +13,22 @@ The Brookings Institute has another [article](https://www.brookings.edu/blog/up-
 
 > Efforts by Black Americans to build wealth can be traced back throughout American history. But these efforts have been impeded in a host of ways, beginning with 246 years of chattel slavery and followed by Congressional mismanagement of the Freedman's Savings Bank (which left 61,144 depositors with losses of nearly \$3 million in 1874), the violent massacre decimating Tulsa's Greenwood District in 1921 (a population of 10,000 that thrived as the epicenter of African American business and culture, commonly referred to as "Black Wall Street"), and discriminatory policies throughout the 20th century including the Jim Crow Era's "Black Codes" strictly limiting opportunity in many southern states, the GI bill, the New Deal's Fair Labor Standards Act's exemption of domestic agricultural and service occupations, and redlining. Wealth was taken from these communities before it had the opportunity to grow.
 
+### Reference Articles
+
+- [Freedman's Savings Bank congressional mismanagement](https://www.occ.treas.gov/about/who-we-are/history/1863-1865/1863-1865-freedmans-savings-bank.html)  
+- [Tulsa Race Massacre](https://en.wikipedia.org/wiki/Tulsa_race_massacre)  
+- [Jim Crow Laws](https://en.wikipedia.org/wiki/Jim_Crow_laws)  
+
+The Pew Research Center also outlines demographic trends and economic well-being in their [article](https://www.pewsocialtrends.org/2016/06/27/1-demographic-trends-and-economic-well-being/) and another [article](https://www.pewresearch.org/fact-tank/2017/11/01/how-wealth-inequality-has-changed-in-the-u-s-since-the-great-recession-by-race-ethnicity-and-income/) on details since the Great Recession (2016). The Federal Reserve has another [article](https://www.federalreserve.gov/econres/notes/feds-notes/disparities-in-wealth-by-race-and-ethnicity-in-the-2019-survey-of-consumer-finances-20200928.htm) on Racial disparities in wealth.
+
+There's a ton of different datasets, all within the scope of wealth, income, or debt over time and by race. The data were fairly tame, but in Excel sheets that weren't ready for analyses. I went ahead and cleaned the data, but feel free to play with the original raw data as well. Many of the datasets could be merged/joined but I would be careful about potential spurious correlations. A good starter dataset is the `income_distribution.csv` as it includes year, race, number of households, income median/mean, income bracket, and income distribution by bracket.
+
+More appropriate for summary plots:  
+- student_debt, retirement, home_owner, lifetime_earn, lifetime_wealth, race_wealth, income_time, and wealth_distribution are from the Urban Institute and are more appropriate for summary plots.
+
+More appropriate for comparisons:  
+- income_mean, income_distribution, income_limits, and income_aggregate are more appropriate as comparison datasets and have the full racial breakdown across the available years.
+
 ### Data Dictionary
 
 # `lifetime_earn.csv`
@@ -130,20 +146,3 @@ Mean income received by each fifth and top 5% of each racial group.
 |dollar_type     |character | Dollar type, ie dollar relative to that year or normalized to 2019 |
 |income_quintile |character | Income quintile and/or top 5% |
 |income_dollars  |double    | Income dollar average |
-
-### Reference Articles
-
-- [Freedman's Savings Bank congressional mismanagement](https://www.occ.treas.gov/about/who-we-are/history/1863-1865/1863-1865-freedmans-savings-bank.html)  
-- [Tulsa Race Massacre](https://en.wikipedia.org/wiki/Tulsa_race_massacre)  
-- [Jim Crow Laws](https://en.wikipedia.org/wiki/Jim_Crow_laws)  
-
-The Pew Research Center also outlines demographic trends and economic well-being in their [article](https://www.pewsocialtrends.org/2016/06/27/1-demographic-trends-and-economic-well-being/) and another [article](https://www.pewresearch.org/fact-tank/2017/11/01/how-wealth-inequality-has-changed-in-the-u-s-since-the-great-recession-by-race-ethnicity-and-income/) on details since the Great Recession (2016). The Federal Reserve has another [article](https://www.federalreserve.gov/econres/notes/feds-notes/disparities-in-wealth-by-race-and-ethnicity-in-the-2019-survey-of-consumer-finances-20200928.htm) on Racial disparities in wealth.
-
-There's a ton of different datasets, all within the scope of wealth, income, or debt over time and by race. The data were fairly tame, but in Excel sheets that weren't ready for analyses. I went ahead and cleaned the data, but feel free to play with the original raw data as well. Many of the datasets could be merged/joined but I would be careful about potential spurious correlations. A good starter dataset is the `income_distribution.csv` as it includes year, race, number of households, income median/mean, income bracket, and income distribution by bracket.
-
-More appropriate for summary plots:  
-- student_debt, retirement, home_owner, lifetime_earn, lifetime_wealth, race_wealth, income_time, and wealth_distribution are from the Urban Institute and are more appropriate for summary plots.
-
-More appropriate for comparisons:  
-- income_mean, income_distribution, income_limits, and income_aggregate are more appropriate as comparison datasets and have the full racial breakdown across the available years.
-
