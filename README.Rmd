@@ -1,6 +1,6 @@
 ---
-title: Project title
-author: by Team name
+title: Wealth Inequality and Vibesssss
+author: 7-UP
 output: github_document
 ---
 
