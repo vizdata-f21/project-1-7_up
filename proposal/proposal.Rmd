@@ -1,6 +1,6 @@
 ---
-title: "Project proposal"
-author: "Team name"
+title: "Exploring income equality"
+author: "Seven-Up"
 output: github_document
 ---
 
@@ -24,6 +24,13 @@ and student debt.
 ## Questions
 
 The two questions you want to answer.
+
+**Question 1: ** The first question we would like to explore is to see how
+income distribution across different racial groups has changed over time. 
+
+**Question 2: ** The second question we would like to explore is to see how 
+homeownership has changed over time among different racial groups. 
+
 
 ## Analysis plan
 
