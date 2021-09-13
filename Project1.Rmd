@@ -24,6 +24,14 @@ income_distribution <- tuesdata$income_distribution
 income_mean <- tuesdata$income_mean
 ```
 
+```{r write-csv}
+for(x in c(income_mean, lifetime_earn, student_debt, retirement, home_owner, race_wealth, income_time, income_limits, income_aggregate, income_distribution)){
+  write_csv(x, paste0("data/", x, ".csv"))
+}
+```
+
+
+
 ## Introduction
 
 (1-2 paragraphs)
