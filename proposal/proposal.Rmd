@@ -10,9 +10,10 @@ library(tidyverse)
 
 ## Dataset
 
-A brief description of your dataset including its provenance, dimensions, etc. as well as the reason why you chose this dataset.
-
-Make sure to load the data and use inline code for some of this information.
+```{r load-data, message = FALSE, warning = FALSE}
+home_owner <- read_csv("../data/home_owner.csv")
+income_distribution <- read_csv("../data/income_distribution.csv")
+```
 
 The dataset comes from the Urban Institute and US Census and focuses on racial
 wealth inequality. We chose this dataset because wealth inequality is a very
@@ -22,21 +23,27 @@ focused on the relationship between race and income over time. There are also
 important files on the relationship between race and retirement, homeownership, 
 and student debt. 
 
+We anticipate primarily using the `home_owner` dataset and the 
+`income_distribution` dataset. The `home_owner` table has `r dim(home_owner)[1]` 
+rows and `r dim(home_owner)[2]` columns. The `income_distribution` table has `r dim(income_distribution)[1]` rows and `r dim(income_distribution)[2]` columns. 
+
 ## Questions
 
-The two questions you want to answer.
+**Question 1:** How has homeownership changed over time, and how does this trend 
+vary between different races?
 
-**Question 1: ** How do wealth and income distribution across different racial groups has changed over time?
+We hypothesis that homeownership has decreased overtime and possibly that the 
+differences in home ownership among races have decreased over time. We would 
+like to further explore these hypotheses in our visualizations and analysis. We 
+anticipate using some sort of time series plot.
 
-In general, we hypothesize that the gap between different racial groups gradually decreases over time.
+**Question 2:** How is wealth and income distributed within different racial 
+groups, and how has this changed over time?
 
-ACROSS DIFFERENT RACES (time series)
+Our hypothesis is that within racial groups, the wealth disparities has actually 
+increased and that overall between racial groups the disparities are 
+significant. 
 
-
-**Question 2: ** The second question we would like to explore is to see how 
-homeownership and student debt loans has changed over time among different racial groups. 
-
-WITHIN RACE (probably not time series - take the most recent)
 
 ## Analysis plan
 
