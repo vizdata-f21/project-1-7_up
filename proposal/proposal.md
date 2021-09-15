@@ -1,6 +1,6 @@
 Income Equality in the United States
 ================
-7-Up
+7 Up: Blossom Mojekwu, Kartik Chamarti, Margaret Reed, Phillip Harmadi
 
 ``` r
 library(tidyverse)
