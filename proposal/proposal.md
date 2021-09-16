@@ -42,19 +42,18 @@ this trend vary between different races?
 
 **Question 2:** How does household income level growth look like for
 each racial group over time, and how does the household income
-disparities look like for each racial group?
+disparities look like among each racial group?
 
   - Our hypothesis is that within racial groups, the income disparities
     has actually increased and that overall between racial groups the
-    disparities are significant.
-
-  - Another hypothesis is that household income inequalities is the
-    highest within Asian-Americans. Our reasoning is that
-    Asian-Americans came from different migration purposes. A
-    significantly higher proportion of East-Asian and Indian-Americans
-    came as professional and skilled white-collared workers while a
-    higher proportion of Southeast-Asian Americans and Pacific Islander
-    Americans came as blue-collared workers or war refugees.
+    disparities are significant. We also hypothesize that household
+    income inequalities is the highest within Asian-Americans. Our
+    reasoning is that Asian-Americans came from different migration
+    purposes. A significantly higher proportion of East-Asian and
+    Indian-Americans came as professional and skilled white-collared
+    workers while a higher proportion of Southeast-Asian Americans and
+    Pacific Islander Americans came as blue-collared workers or war
+    refugees.
 
 ## Analysis plan
 
@@ -62,21 +61,24 @@ A plan for answering each of the questions including the variables
 involved, variables to be created (if any), external data to be merged
 in (if any).
 
-**Question 1** will …
+**Question 1** will visualize how home owner ship changes over time, and
+how it differs among races.
 
-  - Insert here…
+  - We plan to use all of the variables from the `home_owner` dataset:
+    `race`, `year`, and `home_owner_pct`.
 
-  - Insert here…
+  - We don’t anticipate needing additional data, however it is possible
+    we might include data such as home vs rent prices over time.
 
 **Question 2** will visualize the income figures for each of household
 income quintile - how their figure changes over time for each racial
 group.
 
-  - Variables involved will be ‘race’, ‘year’, ‘income\_percentile’
-    (mutated from ‘income\_quintile’), and household income (in 2019
+  - Variables involved will be `race`, `year`, `income_percentile`
+    (mutated from `income_quintile`), and household income (in 2019
     Dollars for the first figure and in ratio to the lowest quintile
     income per year and per race for the second figure).
 
   - There will be no external data to be merged in, but in the process,
     we will expect to perform some amount of data wrangling, e.g.,
-    mutate, filter, select, and pivot.
+    `mutate`, `filter`, `select`, and `pivot`.
