@@ -65,6 +65,10 @@ differs among races.
 - We don't anticipate needing additional data, however it is possible we might 
 include data such as home vs rent prices over time.
 
+- In regards to how this research question will be displayed, we could create
+a line plot across 3 different races so that the plot contains 3 different lines
+of different races to compare for context.
+
 **Question 2** will visualize the income figures for each of household income 
 quintile - how their figure changes over time for each racial group.
 
