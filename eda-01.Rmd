@@ -23,25 +23,15 @@ library(tidyverse)
 income_mean <- read.csv(file = "data/income_mean.csv")
 ```
 
-```{r}
+```{r data-wrangle}
 income_mean$race <- as.character(income_mean$race)
 
 income_mean <- income_mean %>%
-  mutate(race = case_when(
-      race == "All Races"   ~ "All",
-      race == "Asian Alone" ~ "Asian",
-      race == "Black Alone" ~ "Black",
-      race == "Hispanic"    ~ "Hispanic",
-      race == "White Alone" ~ "White",
-      TRUE                  ~ as.character(race))
-    ) %>%
-  filter(race == "All" | race == "Asian" | race == "Black" | 
-           race == "Hispanic" | race == "White")
+  mutate(race_simple = str_remove(race, ',?\\s(.*)'))
 
-income_mean$race <- factor(income_mean$race, 
-                           levels = c("All", "White", "Black", "Hispanic", "Asian"))
-
-income_mean
+income_mean$race <- factor(income_mean$race,
+                           levels = c("All", "White", "Black", "Hispanic",
+                                      "Asian"))
 ```
 
 ```{r}
@@ -58,15 +48,18 @@ income_mean <- income_mean %>%
 income_mean$income_percentile <- as.factor(income_mean$income_percentile) 
 
 income_mean$income_percentile <- factor(income_mean$income_percentile, 
-                                        levels = c("1st - 5th", "1st - 20th", "21st - 40th",
-                                                   "41st - 60th", "61st - 80th", "81st - 100th"))
-
-income_mean
+                                        levels = c("1st - 5th", "1st - 20th", 
+                                                   "21st - 40th",
+                                                   "41st - 60th", "61st - 80th", 
+                                                   "81st - 100th"))
 ```
+
+
 ```{r}
 income_mean <- income_mean %>% filter(dollar_type == "2019 Dollars")
 
-income_mean <- income_mean %>% filter(race != "All")
+income_mean <- income_mean %>% filter(race_simple != "All") %>%
+  select(-race)
 ```
 
 ```{r}
@@ -75,11 +68,15 @@ ggplot(data = income_mean,
                      y = income_dollars,
                      colour = income_percentile)) +
   geom_line(size = 0.25, alpha = 0.75) + 
-  facet_wrap(. ~ race, nrow = 2) +
-  labs(title = "Income Quintiles: Time Series Across Different Races",
-       subtitle = "7 Up: Blossom Mojekwu, Kartik Chamarti, Margaret Reed, Phillip Harmadi",
-       x = "Year", y = "Household Income (2019 Dollars)", color = "Percentile",
-       caption = "Source: Urban Institute and the US Census") +
+  facet_wrap(. ~ race_simple, nrow = 2) +
+  labs(
+    title = "Income Quintiles: Time Series Across Different Races",
+    subtitle = "7 Up: Blossom Mojekwu, Kartik Chamarti, Margaret Reed, Phillip Harmadi",
+    x = "Year", 
+    y = "Household Income (2019 Dollars)", 
+    color = "Percentile",
+    caption = "Source: Urban Institute and the US Census"
+    ) +
   scale_x_continuous(breaks = scales::pretty_breaks(n = 5)) +
   scale_y_continuous(labels = scales::comma) +
   scale_colour_viridis_d() +
@@ -91,14 +88,10 @@ ggplot(data = income_mean,
 ```
 
 ```{r}
-income_mean <- read.csv(file = "data/income_mean.csv")
-
-income_mean_wider <- pivot_wider(data = income_mean, 
-                                  names_from = income_quintile, 
-                                  values_from = c("income_dollars")) %>% unnest
-
-income_mean_wider
-
+income_mean_wider <- income_mean %>%
+  select(-c(income_percentile)) %>%
+  pivot_wider(names_from = income_quintile, 
+                                  values_from = c("income_dollars")) %>% unnest()
 income_mean_wider <- income_mean_wider %>%
   mutate(lowest_standardized = 1,
          second_standardized = Second / Lowest,
@@ -111,6 +104,7 @@ income_mean_wider <- income_mean_wider %>%
   select(-c("Lowest", "Second", "Middle", "Fourth", "Highest", "Top 5%")) %>%
   filter(dollar_type == "2019 Dollars") %>%
   select(-c("dollar_type")) %>%
+<<<<<<< HEAD
   mutate(race = case_when(
       race == "All Races"   ~ "All",
       race == "Asian Alone" ~ "Asian",
@@ -136,13 +130,20 @@ income_mean_wider
 # income_mean_wider$top_5_pct_standardized <- as.double(income_mean_wider$top_5_pct_standardized)
 
 income_mean_wider
+=======
+  mutate(
+    across(
+      .cols = ends_with("standardized"),
+      .fun = as.double
+    )
+  )
+>>>>>>> a8a30359640a17a102a5600f5ce731f4506a4b3d
 ```
 
 
 ```{r}
 income_mean_final <- income_mean_wider %>% 
-  pivot_longer(data = income_mean_wider, 
-               cols = !year:race,
+  pivot_longer(cols = !year:race_simple,
                names_to = "income_quintile", 
                values_to = "income_dollars")
 
@@ -158,10 +159,10 @@ income_mean_final <- income_mean_final %>%
   select(-c("income_dollars"))
 
 income_mean_final$income_percentile <- factor(income_mean_final$income_percentile, 
-                                        levels = c("1st - 5th", "1st - 20th", "21st - 40th",
-                                                   "41st - 60th", "61st - 80th", "81st - 100th"))
-
-income_mean_final
+                                        levels = c("1st - 5th", "1st - 20th", 
+                                                   "21st - 40th",
+                                                   "41st - 60th", "61st - 80th", 
+                                                   "81st - 100th"))
 ```
 
 
@@ -171,12 +172,14 @@ ggplot(data = income_mean_final,
                      y = income_dollars_standardized,
                      colour = income_percentile)) +
   geom_line(size = 0.25, alpha = 0.75) + 
-  facet_wrap(. ~ race, nrow = 2) +
-  labs(title = "Income Gap: How much do top households earn compared to bottom households for each race?",
-       subtitle = "7 Up: Blossom Mojekwu, Kartik Chamarti, Margaret Reed, Phillip Harmadi",
-       x = "Year", y = "Household Income Ratio", 
-       color = "Percentile",
-       caption = "Household income in the bottom quintile (81st-100th) for all years are standardized to a value of 1 for each race.") +
+  facet_wrap(. ~ race_simple, nrow = 2) +
+  labs(
+    title = "Income Gap: How much do top households earn compared to bottom households for each race?",
+    subtitle = "7 Up: Blossom Mojekwu, Kartik Chamarti, Margaret Reed, Phillip Harmadi",
+    x = "Year", y = "Household Income Ratio", 
+    color = "Percentile",
+    caption = "Household income in the bottom quintile (81st-100th) for all years are standardized to a value of 1 for each race."
+    ) +
   scale_x_continuous(breaks = scales::pretty_breaks(n = 5)) +
   scale_y_continuous(labels = scales::comma) +
   scale_colour_viridis_d() +
