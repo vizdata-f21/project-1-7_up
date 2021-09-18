@@ -83,11 +83,11 @@ in the "Approach" section.
 
 We are making 2 different plots to address our question:
 
-(1) Absolute household income figures for each income quintile by race by 
-year.
+  - **Absolute household income figures for each income quintile by race by 
+    year.**
 
-(2) Household income ratio (baseline = lowest income quintile) for each 
-income quintile by race by year.
+  - **Household income ratio (with the lowest income quintile as the baseline) 
+  for each income quintile by race by year.**
 
 will visualize the income figures for each of household
 income quintile - how their figure changes over time for each racial
