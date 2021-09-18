@@ -27,7 +27,7 @@ income_mean <- read.csv(file = "data/income_mean.csv")
 income_mean$race <- as.character(income_mean$race)
 
 income_mean <- income_mean %>%
-  mutate(race_simple = str_remove(race, ',?\\s(.*)'))
+  mutate(race = str_remove(race, ',?\\s(.*)'))
 
 income_mean$race <- factor(income_mean$race,
                            levels = c("All", "White", "Black", "Hispanic",
@@ -54,12 +54,10 @@ income_mean$income_percentile <- factor(income_mean$income_percentile,
                                                    "81st - 100th"))
 ```
 
-
 ```{r}
 income_mean <- income_mean %>% filter(dollar_type == "2019 Dollars")
 
-income_mean <- income_mean %>% filter(race_simple != "All") %>%
-  select(-race)
+income_mean <- income_mean %>% filter(race != "All")
 ```
 
 ```{r}
@@ -68,7 +66,7 @@ ggplot(data = income_mean,
                      y = income_dollars,
                      colour = income_percentile)) +
   geom_line(size = 0.25, alpha = 0.75) + 
-  facet_wrap(. ~ race_simple, nrow = 2) +
+  facet_wrap(. ~ race, nrow = 2) +
   labs(
     title = "Income Quintiles: Time Series Across Different Races",
     subtitle = "7 Up: Blossom Mojekwu, Kartik Chamarti, Margaret Reed, Phillip Harmadi",
@@ -103,24 +101,24 @@ income_mean_wider <- income_mean_wider %>%
 income_mean_wider <- income_mean_wider %>%
   select(-c("Lowest", "Second", "Middle", "Fourth", "Highest", "Top 5%")) %>%
   filter(dollar_type == "2019 Dollars") %>%
-  select(-c("dollar_type")) %>%
-<<<<<<< HEAD
-  mutate(race = case_when(
-      race == "All Races"   ~ "All",
-      race == "Asian Alone" ~ "Asian",
-      race == "Black Alone" ~ "Black",
-      race == "Hispanic"    ~ "Hispanic",
-      race == "White Alone" ~ "White",
-      TRUE                  ~ as.character(race))
-    ) %>%
-  filter(race == "All" | race == "Asian" | race == "Black" | 
-           race == "Hispanic" | race == "White") %>%
-  filter(race != "All") 
-
-income_mean_wider$race <- factor(income_mean_wider$race, 
-                                 levels = c("White", "Black", "Hispanic", "Asian"))
-
-income_mean_wider
+  select(-c("dollar_type")) 
+# <<<<<<< HEAD
+#   mutate(race = case_when(
+#       race == "All Races"   ~ "All",
+#       race == "Asian Alone" ~ "Asian",
+#       race == "Black Alone" ~ "Black",
+#       race == "Hispanic"    ~ "Hispanic",
+#       race == "White Alone" ~ "White",
+#       TRUE                  ~ as.character(race))
+#     ) %>%
+#   filter(race == "All" | race == "Asian" | race == "Black" | 
+#            race == "Hispanic" | race == "White") %>%
+#   filter(race != "All") 
+# 
+# income_mean_wider$race <- factor(income_mean_wider$race, 
+#                                  levels = c("White", "Black", "Hispanic", "Asian"))
+# 
+# income_mean_wider
 
 # income_mean_wider$lowest_standardized <- as.double(income_mean_wider$lowest_standardized)
 # income_mean_wider$second_standardized <- as.double(income_mean_wider$second_standardized)
@@ -130,20 +128,20 @@ income_mean_wider
 # income_mean_wider$top_5_pct_standardized <- as.double(income_mean_wider$top_5_pct_standardized)
 
 income_mean_wider
-=======
-  mutate(
-    across(
-      .cols = ends_with("standardized"),
-      .fun = as.double
-    )
-  )
->>>>>>> a8a30359640a17a102a5600f5ce731f4506a4b3d
+# =======
+#   mutate(
+#     across(
+#       .cols = ends_with("standardized"),
+#       .fun = as.double
+#     )
+#   )
+# >>>>>>> a8a30359640a17a102a5600f5ce731f4506a4b3d
 ```
 
 
 ```{r}
 income_mean_final <- income_mean_wider %>% 
-  pivot_longer(cols = !year:race_simple,
+  pivot_longer(cols = !year:race,
                names_to = "income_quintile", 
                values_to = "income_dollars")
 
@@ -172,7 +170,7 @@ ggplot(data = income_mean_final,
                      y = income_dollars_standardized,
                      colour = income_percentile)) +
   geom_line(size = 0.25, alpha = 0.75) + 
-  facet_wrap(. ~ race_simple, nrow = 2) +
+  facet_wrap(. ~ race, nrow = 2) +
   labs(
     title = "Income Gap: How much do top households earn compared to bottom households for each race?",
     subtitle = "7 Up: Blossom Mojekwu, Kartik Chamarti, Margaret Reed, Phillip Harmadi",
@@ -199,7 +197,6 @@ income_mean_final %>%
   ggplot(aes(fill = income_quintile, y = income_dollars_standardized, x = race)) + 
     geom_bar(position = "fill", stat = "identity")
 ```
-
 
 ```{r}
 income_mean_final %>%
