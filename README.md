@@ -60,7 +60,7 @@ R or lattice plotting functions.
 your analysis. Identify any trends revealed (or not revealed) by the
 plots. Speculate about why the data looks the way it does.
 
-## Question 2 &lt;- How do the disparities in income by race looks like in the United States?
+## Question 2 &lt;- How severe is income inequality within each race over time in the United States?
 
 ### Introduction
 
@@ -115,6 +115,11 @@ on proper citation for datasets. If you got your data off the web, make
 sure to note the retrieval date.
 
 ## References
+
+Our data comes from the [Urban Institute](https://apps.urban.org/features/wealth-inequality-charts/) 
+and the [US Census](https://www.census.gov/data/tables/time-series/demo/income-poverty/historical-income-households.html). 
+The US Census provides [Historical Income Tables](https://www.census.gov/data/tables/time-series/demo/income-poverty/historical-income-households.html), 
+of which we have joined several to compare wealth and income over time by race.
 
 List any references here. You should, at a minimum, list your data
 source.
