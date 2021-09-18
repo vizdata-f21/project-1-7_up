@@ -1,0 +1,235 @@
+---
+title: "eda"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r load-pkg}
+library(tidyverse)
+```
+
+```{r load-data}
+# tuesdata <- tidytuesdayR::tt_load('2021-02-09')
+```
+
+## Question 2
+
+### Figure 1
+
+```{r}
+income_mean <- read.csv(file = "data/income_mean.csv")
+```
+
+```{r data-wrangle}
+income_mean$race <- as.character(income_mean$race)
+
+income_mean <- income_mean %>%
+  mutate(race_simple = str_remove(race, ',?\\s(.*)'))
+
+income_mean$race <- factor(income_mean$race,
+                           levels = c("All", "White", "Black", "Hispanic",
+                                      "Asian"))
+```
+
+```{r}
+income_mean <- income_mean %>%
+  mutate(income_percentile = case_when(
+      income_quintile == "Top 5%"   ~ "1st - 5th",
+      income_quintile == "Highest"  ~ "1st - 20th",
+      income_quintile == "Second"   ~ "21st - 40th",
+      income_quintile == "Middle"   ~ "41st - 60th",
+      income_quintile == "Fourth"   ~ "61st - 80th",
+      income_quintile == "Lowest"   ~ "81st - 100th")) 
+
+
+income_mean$income_percentile <- as.factor(income_mean$income_percentile) 
+
+income_mean$income_percentile <- factor(income_mean$income_percentile, 
+                                        levels = c("1st - 5th", "1st - 20th", 
+                                                   "21st - 40th",
+                                                   "41st - 60th", "61st - 80th", 
+                                                   "81st - 100th"))
+```
+
+
+```{r}
+income_mean <- income_mean %>% filter(dollar_type == "2019 Dollars")
+
+income_mean <- income_mean %>% filter(race_simple != "All") %>%
+  select(-race)
+```
+
+```{r}
+ggplot(data = income_mean,
+       mapping = aes(x = year,
+                     y = income_dollars,
+                     colour = income_percentile)) +
+  geom_line(size = 0.25, alpha = 0.75) + 
+  facet_wrap(. ~ race_simple, nrow = 2) +
+  labs(
+    title = "Income Quintiles: Time Series Across Different Races",
+    subtitle = "7 Up: Blossom Mojekwu, Kartik Chamarti, Margaret Reed, Phillip Harmadi",
+    x = "Year", 
+    y = "Household Income (2019 Dollars)", 
+    color = "Percentile",
+    caption = "Source: Urban Institute and the US Census"
+    ) +
+  scale_x_continuous(breaks = scales::pretty_breaks(n = 5)) +
+  scale_y_continuous(labels = scales::comma) +
+  scale_colour_viridis_d() +
+  theme_minimal() +
+  theme(text = element_text(size = 10), 
+        axis.text.x = element_text(angle = 30, hjust = 1),
+        axis.text.y = element_text(angle = 0, hjust = 1)) +
+  coord_fixed(ratio = 1 / 20000)
+```
+
+```{r}
+income_mean_wider <- income_mean %>%
+  select(-c(income_percentile)) %>%
+  pivot_wider(names_from = income_quintile, 
+                                  values_from = c("income_dollars")) %>% unnest()
+income_mean_wider <- income_mean_wider %>%
+  mutate(lowest_standardized = 1,
+         second_standardized = Second / Lowest,
+         middle_standardized = Middle / Lowest,
+         fourth_standardized = Fourth / Lowest,
+         highest_standardized = Highest / Lowest,
+         top_5_pct_standardized = `Top 5%` / Lowest)
+
+income_mean_wider <- income_mean_wider %>%
+  select(-c("Lowest", "Second", "Middle", "Fourth", "Highest", "Top 5%")) %>%
+  filter(dollar_type == "2019 Dollars") %>%
+  select(-c("dollar_type")) %>%
+<<<<<<< HEAD
+  mutate(race = case_when(
+      race == "All Races"   ~ "All",
+      race == "Asian Alone" ~ "Asian",
+      race == "Black Alone" ~ "Black",
+      race == "Hispanic"    ~ "Hispanic",
+      race == "White Alone" ~ "White",
+      TRUE                  ~ as.character(race))
+    ) %>%
+  filter(race == "All" | race == "Asian" | race == "Black" | 
+           race == "Hispanic" | race == "White") %>%
+  filter(race != "All") 
+
+income_mean_wider$race <- factor(income_mean_wider$race, 
+                                 levels = c("White", "Black", "Hispanic", "Asian"))
+
+income_mean_wider
+
+# income_mean_wider$lowest_standardized <- as.double(income_mean_wider$lowest_standardized)
+# income_mean_wider$second_standardized <- as.double(income_mean_wider$second_standardized)
+# income_mean_wider$middle_standardized <- as.double(income_mean_wider$middle_standardized)
+# income_mean_wider$fourth_standardized <- as.double(income_mean_wider$fourth_standardized)
+# income_mean_wider$highest_standardized <- as.double(income_mean_wider$highest_standardized)
+# income_mean_wider$top_5_pct_standardized <- as.double(income_mean_wider$top_5_pct_standardized)
+
+income_mean_wider
+=======
+  mutate(
+    across(
+      .cols = ends_with("standardized"),
+      .fun = as.double
+    )
+  )
+>>>>>>> a8a30359640a17a102a5600f5ce731f4506a4b3d
+```
+
+
+```{r}
+income_mean_final <- income_mean_wider %>% 
+  pivot_longer(cols = !year:race_simple,
+               names_to = "income_quintile", 
+               values_to = "income_dollars")
+
+income_mean_final <- income_mean_final %>%
+  mutate(income_percentile = case_when(
+      income_quintile == "top_5_pct_standardized"    ~ "1st - 5th",
+      income_quintile == "highest_standardized"      ~ "1st - 20th",
+      income_quintile == "fourth_standardized"       ~ "21st - 40th",
+      income_quintile == "middle_standardized"       ~ "41st - 60th",
+      income_quintile == "second_standardized"       ~ "61st - 80th",
+      income_quintile == "lowest_standardized"       ~ "81st - 100th"),
+      income_dollars_standardized = income_dollars) %>%
+  select(-c("income_dollars"))
+
+income_mean_final$income_percentile <- factor(income_mean_final$income_percentile, 
+                                        levels = c("1st - 5th", "1st - 20th", 
+                                                   "21st - 40th",
+                                                   "41st - 60th", "61st - 80th", 
+                                                   "81st - 100th"))
+```
+
+
+```{r}
+ggplot(data = income_mean_final,
+       mapping = aes(x = year,
+                     y = income_dollars_standardized,
+                     colour = income_percentile)) +
+  geom_line(size = 0.25, alpha = 0.75) + 
+  facet_wrap(. ~ race_simple, nrow = 2) +
+  labs(
+    title = "Income Gap: How much do top households earn compared to bottom households for each race?",
+    subtitle = "7 Up: Blossom Mojekwu, Kartik Chamarti, Margaret Reed, Phillip Harmadi",
+    x = "Year", y = "Household Income Ratio", 
+    color = "Percentile",
+    caption = "Household income in the bottom quintile (81st-100th) for all years are standardized to a value of 1 for each race."
+    ) +
+  scale_x_continuous(breaks = scales::pretty_breaks(n = 5)) +
+  scale_y_continuous(labels = scales::comma) +
+  scale_colour_viridis_d() +
+  theme_minimal() +
+  theme(text = element_text(size = 9), 
+        axis.text.x = element_text(angle = 30, hjust = 1),
+        axis.text.y = element_text(angle = 0, hjust = 1)) +
+  coord_fixed(ratio = 1 / 1.5)
+```
+
+```{r}
+income_mean_final %>%
+  mutate(income_quintile = fct_reorder(.f = income_quintile, .x = income_dollars_standardized, 
+                                     .fun = mean, na.rm = FALSE, .desc = TRUE)) %>%
+  filter(year == 2019) %>%
+  filter(income_quintile != "top_5_pct_standardized") %>%
+  ggplot(aes(fill = income_quintile, y = income_dollars_standardized, x = race)) + 
+    geom_bar(position = "fill", stat = "identity")
+```
+
+```{r}
+income_mean_final %>%
+  mutate(income_quintile = fct_reorder(.f = income_quintile, .x = income_dollars_standardized, 
+                                     .fun = mean, na.rm = FALSE, .desc = TRUE)) %>%
+  filter(year == 2019) %>%
+  filter(income_quintile != "top_5_pct_standardized") %>%
+  ggplot(aes(x = income_quintile, y = income_dollars_standardized, fill = race)) + 
+  geom_bar(stat = "identity", position = position_dodge())
+```
+
+```{r}
+income_mean_final %>%
+  mutate(income_quintile = fct_reorder(.f = income_percentile, .x = income_dollars_standardized, 
+                                     .fun = mean, na.rm = FALSE, .desc = TRUE)) %>%
+  filter(year == 2019) %>%
+  filter(income_quintile != "top_5_pct_standardized") %>%
+  ggplot(aes(fill = income_percentile, y = income_dollars_standardized, x = race)) + 
+  geom_bar(stat = "identity", position = position_dodge())
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
