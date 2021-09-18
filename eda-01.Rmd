@@ -126,12 +126,14 @@ income_mean_wider <- income_mean_wider %>%
 income_mean_wider$race <- factor(income_mean_wider$race, 
                                  levels = c("White", "Black", "Hispanic", "Asian"))
 
-income_mean_wider$lowest_standardized <- as.double(income_mean_wider$lowest_standardized)
-income_mean_wider$second_standardized <- as.double(income_mean_wider$second_standardized)
-income_mean_wider$middle_standardized <- as.double(income_mean_wider$middle_standardized)
-income_mean_wider$fourth_standardized <- as.double(income_mean_wider$fourth_standardized)
-income_mean_wider$highest_standardized <- as.double(income_mean_wider$highest_standardized)
-income_mean_wider$top_5_pct_standardized <- as.double(income_mean_wider$top_5_pct_standardized)
+income_mean_wider
+
+# income_mean_wider$lowest_standardized <- as.double(income_mean_wider$lowest_standardized)
+# income_mean_wider$second_standardized <- as.double(income_mean_wider$second_standardized)
+# income_mean_wider$middle_standardized <- as.double(income_mean_wider$middle_standardized)
+# income_mean_wider$fourth_standardized <- as.double(income_mean_wider$fourth_standardized)
+# income_mean_wider$highest_standardized <- as.double(income_mean_wider$highest_standardized)
+# income_mean_wider$top_5_pct_standardized <- as.double(income_mean_wider$top_5_pct_standardized)
 
 income_mean_wider
 ```
@@ -184,6 +186,38 @@ ggplot(data = income_mean_final,
         axis.text.y = element_text(angle = 0, hjust = 1)) +
   coord_fixed(ratio = 1 / 1.5)
 ```
+
+```{r}
+income_mean_final %>%
+  mutate(income_quintile = fct_reorder(.f = income_quintile, .x = income_dollars_standardized, 
+                                     .fun = mean, na.rm = FALSE, .desc = TRUE)) %>%
+  filter(year == 2019) %>%
+  filter(income_quintile != "top_5_pct_standardized") %>%
+  ggplot(aes(fill = income_quintile, y = income_dollars_standardized, x = race)) + 
+    geom_bar(position = "fill", stat = "identity")
+```
+
+
+```{r}
+income_mean_final %>%
+  mutate(income_quintile = fct_reorder(.f = income_quintile, .x = income_dollars_standardized, 
+                                     .fun = mean, na.rm = FALSE, .desc = TRUE)) %>%
+  filter(year == 2019) %>%
+  filter(income_quintile != "top_5_pct_standardized") %>%
+  ggplot(aes(x = income_quintile, y = income_dollars_standardized, fill = race)) + 
+  geom_bar(stat = "identity", position = position_dodge())
+```
+
+```{r}
+income_mean_final %>%
+  mutate(income_quintile = fct_reorder(.f = income_percentile, .x = income_dollars_standardized, 
+                                     .fun = mean, na.rm = FALSE, .desc = TRUE)) %>%
+  filter(year == 2019) %>%
+  filter(income_quintile != "top_5_pct_standardized") %>%
+  ggplot(aes(fill = income_percentile, y = income_dollars_standardized, x = race)) + 
+  geom_bar(stat = "identity", position = position_dodge())
+```
+
 
 
 
