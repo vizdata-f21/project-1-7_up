@@ -60,7 +60,7 @@ R or lattice plotting functions.
 your analysis. Identify any trends revealed (or not revealed) by the
 plots. Speculate about why the data looks the way it does.
 
-## Question 2 &lt;- How severe is income inequality within each race over time in the United States?
+## Question 2 &lt;- How severe is income inequality within each race in the United States?
 
 ### Introduction
 
@@ -84,14 +84,27 @@ in the "Approach" section.
 We are making 2 different plots to address our question:
 
   - **Absolute household income figures for each income quintile by race by 
-    year.**
+    year.** A ***line graph*** with facets is best for this plot since we are 
+    trying to visualize how absolute income has grown over time over time.
+    A line graph is ideal for time series data, and a facet is necessary since
+    we are dealing with multiple income quintiles.
 
   - **Household income ratio (with the lowest income quintile as the baseline) 
-  for each income quintile by race by year.**
+  for each income quintile by race.** A ***bar graph*** is deemed appropriate 
+  for this plot since we are trying to compare how much the top income quintile 
+  earns more than the bottom income quintile for each racial groups and
+  understand which race has the highest gap. A bar graph is ideal since we can 
+  group or stack them together and color them based on the income quintile
+  variable, making the visualization easier to be understood by readers.
+  
+  (1-2 paragraphs) Describe what types of plots you are going to make to
+address your question. For each plot, provide a clear explanation as to
+why this plot (e.g. boxplot, barplot, histogram, etc.) is best for
+providing the information you are asking about. The two plots should be
+of different types, and at least one of the two plots needs to use
+either color mapping or facets.
 
-will visualize the income figures for each of household
-income quintile - how their figure changes over time for each racial
-group.
+### Analysis
 
   - Variables involved will be `race`, `year`, `income_percentile`
     (mutated from `income_quintile`), and household income (in 2019
@@ -101,15 +114,6 @@ group.
   - There will be no external data to be merged in, but in the process,
     we will expect to perform some amount of data wrangling, e.g.,
     `mutate`, `filter`, `select`, and `pivot`.
-
-(1-2 paragraphs) Describe what types of plots you are going to make to
-address your question. For each plot, provide a clear explanation as to
-why this plot (e.g. boxplot, barplot, histogram, etc.) is best for
-providing the information you are asking about. The two plots should be
-of different types, and at least one of the two plots needs to use
-either color mapping or facets.
-
-### Analysis
 
 (2-3 code blocks, 2 figures, text/code comments as needed) In this
 section, provide the code that generates your plots. Use scale functions
