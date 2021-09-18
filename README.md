@@ -1,8 +1,26 @@
-Project title
+Visualizing Income Inequality in the United States
 ================
-by Team name
+by 7 Up: Blossom Mojekwu, Kartik Chamarti, Margaret Reed, Phillip Harmadi
 
 ## Introduction
+
+``` r
+home_owner <- read_csv("../data/home_owner.csv")
+income_mean <- read_csv("../data/income_mean.csv")
+```
+
+The dataset comes from the Urban Institute and US Census and focuses on
+racial wealth inequality. We chose this dataset because wealth
+inequality is a very important issue in America, and it would be
+valuable to see the relationship between race and wealth over time in
+America. There are around 5-6 data files focused on the relationship
+between race and income over time. There are also important files on the
+relationship between race and retirement, homeownership, and student
+debt.
+
+We anticipate primarily using the `home_owner` dataset and the
+`income_mean` dataset. The `home_owner` table has 123 rows and 3
+columns. The `income_mean` table has 3708 rows and 5 columns.
 
 (1-2 paragraphs) Brief introduction to the dataset. You may repeat some
 of the information about the dataset provided in the introduction to the
@@ -42,13 +60,24 @@ R or lattice plotting functions.
 your analysis. Identify any trends revealed (or not revealed) by the
 plots. Speculate about why the data looks the way it does.
 
-## Question 2 &lt;- Update title to relate to the question you’re answering
+## Question 2 &lt;- How do the disparities in income by race looks like in the United States?
 
 ### Introduction
 
-(1-2 paragraphs) Introduction to the question and what parts of the
-dataset are necessary to answer the question. Also discuss why you’re
-interested in this question.
+Most income inequality research focuses on the income disparity between 
+different races, for example, how Asian Americans ans White Americans
+typically have higher income as compared to African Americans and 
+Hispanic Americans. There is siginifcantly less research focusing on
+the income disparities within each of the races. We are trying to 
+figure out the degree of income inequality for each of the races
+within their own community.
+
+In this question, we will be using the income_mean.csv. This dataset
+is sufficient since it provides us with the income information for
+each houshold quintiles each year for each race. We will be using all 
+variables of the dataset ('year', 'race', 'dollar_type', 
+'income_quintile', 'income_dollars', which will be explained further 
+in the "Approach" section.
 
 ### Approach
 
