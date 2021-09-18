@@ -65,7 +65,7 @@ plots. Speculate about why the data looks the way it does.
 ### Introduction
 
 Most income inequality research focuses on the income disparity between 
-different races, for example, how Asian Americans ans White Americans
+different races, for example, how Asian Americans and White Americans
 typically have higher income as compared to African Americans and 
 Hispanic Americans. There is siginifcantly less research focusing on
 the income disparities within each of the races. We are trying to 
@@ -80,6 +80,27 @@ variables of the dataset ('year', 'race', 'dollar_type',
 in the "Approach" section.
 
 ### Approach
+
+We are making 2 different plots to address our question:
+
+(1) Absolute household income figures for each income quintile by race by 
+year.
+
+(2) Household income ratio (baseline = lowest income quintile) for each 
+income quintile by race by year.
+
+will visualize the income figures for each of household
+income quintile - how their figure changes over time for each racial
+group.
+
+  - Variables involved will be `race`, `year`, `income_percentile`
+    (mutated from `income_quintile`), and household income (in 2019
+    Dollars for the first figure and in ratio to the lowest quintile
+    income per year and per race for the second figure).
+
+  - There will be no external data to be merged in, but in the process,
+    we will expect to perform some amount of data wrangling, e.g.,
+    `mutate`, `filter`, `select`, and `pivot`.
 
 (1-2 paragraphs) Describe what types of plots you are going to make to
 address your question. For each plot, provide a clear explanation as to
