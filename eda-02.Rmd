@@ -1,0 +1,65 @@
+---
+title: "eda-02"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r load-pkgs, message = F}
+library(tidyverse)
+library(viridis)
+```
+
+```{r load-data, message = F}
+income_mean <- read_csv(file = "data/income_mean.csv")
+home_owner <- read_csv("data/home_owner.csv")
+```
+
+```{r find-peaks}
+lowest_year <- home_owner %>%
+  group_by(year) %>%
+  summarize(mean_pct_unweighted = mean(home_owner_pct)) %>%
+  arrange(mean_pct_unweighted) %>%
+  slice(1) %>%
+  pull(year)
+highest_year <- home_owner %>%
+  group_by(year) %>%
+  summarize(mean_pct_unweighted = mean(home_owner_pct)) %>%
+  arrange(desc(mean_pct_unweighted)) %>%
+  slice(1) %>%
+  pull(year)  
+```
+
+
+```{r first-look}
+home_owner %>%
+  ggplot(
+    aes(x = year, y = home_owner_pct, color = race)
+  ) +
+  geom_line() +
+  geom_vline(aes(xintercept = lowest_year), color = "grey") +
+  geom_vline(aes(xintercept = highest_year), color = "grey") +
+  geom_label(x = lowest_year - 5, y = 0.56, 
+            label = paste0("Year with lowest \nhome ownership (", lowest_year, ")"), 
+            color = "black") +
+    geom_label(x = highest_year + 5, y = 0.56, 
+            label = paste0("Year with highest \nhome ownership (", highest_year, ")"), 
+            color = "black") +
+  scale_color_viridis_d() +
+  labs(
+    x = "Year",
+    y = "Percent owning homes",
+    color = "Race",
+    title = "Home ownership over time",
+    subtitle = "by race"
+  ) +
+  theme_minimal()
+```
+
+```{r second-look}
+
+```
+
