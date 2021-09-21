@@ -11,15 +11,11 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 ```
 
-```{r load-data}
-# tuesdata <- tidytuesdayR::tt_load('2021-02-09')
-```
-
 ## Question 2
 
 ### Figure 1
 
-```{r}
+```{r load-data}
 income_mean <- read.csv(file = "data/income_mean.csv")
 ```
 
@@ -34,7 +30,7 @@ income_mean$race <- factor(income_mean$race,
                                       "Asian"))
 ```
 
-```{r}
+```{r more-data-wrangle}
 income_mean <- income_mean %>%
   mutate(income_percentile = case_when(
       income_quintile == "Top 5%"   ~ "1st - 5th",
@@ -54,13 +50,13 @@ income_mean$income_percentile <- factor(income_mean$income_percentile,
                                                    "81st - 100th"))
 ```
 
-```{r}
+```{r some-filters}
 income_mean <- income_mean %>% filter(dollar_type == "2019 Dollars")
 
 income_mean <- income_mean %>% filter(race != "All")
 ```
 
-```{r}
+```{r first-plot}
 ggplot(data = income_mean,
        mapping = aes(x = year,
                      y = income_dollars,
@@ -85,7 +81,7 @@ ggplot(data = income_mean,
   coord_fixed(ratio = 1 / 20000)
 ```
 
-```{r}
+```{r wrangle-for-plot2}
 income_mean_wider <- income_mean %>%
   select(-c(income_percentile)) %>%
   pivot_wider(names_from = income_quintile, 
@@ -102,44 +98,10 @@ income_mean_wider <- income_mean_wider %>%
   select(-c("Lowest", "Second", "Middle", "Fourth", "Highest", "Top 5%")) %>%
   filter(dollar_type == "2019 Dollars") %>%
   select(-c("dollar_type")) 
-# <<<<<<< HEAD
-#   mutate(race = case_when(
-#       race == "All Races"   ~ "All",
-#       race == "Asian Alone" ~ "Asian",
-#       race == "Black Alone" ~ "Black",
-#       race == "Hispanic"    ~ "Hispanic",
-#       race == "White Alone" ~ "White",
-#       TRUE                  ~ as.character(race))
-#     ) %>%
-#   filter(race == "All" | race == "Asian" | race == "Black" | 
-#            race == "Hispanic" | race == "White") %>%
-#   filter(race != "All") 
-# 
-# income_mean_wider$race <- factor(income_mean_wider$race, 
-#                                  levels = c("White", "Black", "Hispanic", "Asian"))
-# 
-# income_mean_wider
-
-# income_mean_wider$lowest_standardized <- as.double(income_mean_wider$lowest_standardized)
-# income_mean_wider$second_standardized <- as.double(income_mean_wider$second_standardized)
-# income_mean_wider$middle_standardized <- as.double(income_mean_wider$middle_standardized)
-# income_mean_wider$fourth_standardized <- as.double(income_mean_wider$fourth_standardized)
-# income_mean_wider$highest_standardized <- as.double(income_mean_wider$highest_standardized)
-# income_mean_wider$top_5_pct_standardized <- as.double(income_mean_wider$top_5_pct_standardized)
-
-income_mean_wider
-# =======
-#   mutate(
-#     across(
-#       .cols = ends_with("standardized"),
-#       .fun = as.double
-#     )
-#   )
-# >>>>>>> a8a30359640a17a102a5600f5ce731f4506a4b3d
 ```
 
 
-```{r}
+```{r pivot-longer}
 income_mean_final <- income_mean_wider %>% 
   pivot_longer(cols = !year:race,
                names_to = "income_quintile", 
@@ -164,7 +126,7 @@ income_mean_final$income_percentile <- factor(income_mean_final$income_percentil
 ```
 
 
-```{r}
+```{r plot2}
 ggplot(data = income_mean_final,
        mapping = aes(x = year,
                      y = income_dollars_standardized,
@@ -188,7 +150,7 @@ ggplot(data = income_mean_final,
   coord_fixed(ratio = 1 / 1.5)
 ```
 
-```{r}
+```{r plot3}
 income_mean_final %>%
   mutate(income_quintile = fct_reorder(.f = income_quintile, .x = income_dollars_standardized, 
                                      .fun = mean, na.rm = FALSE, .desc = TRUE)) %>%
@@ -198,7 +160,7 @@ income_mean_final %>%
     geom_bar(position = "fill", stat = "identity")
 ```
 
-```{r}
+```{r plot4}
 income_mean_final %>%
   mutate(income_quintile = fct_reorder(.f = income_quintile, .x = income_dollars_standardized, 
                                      .fun = mean, na.rm = FALSE, .desc = TRUE)) %>%
@@ -208,7 +170,7 @@ income_mean_final %>%
   geom_bar(stat = "identity", position = position_dodge())
 ```
 
-```{r}
+```{r plot5}
 income_mean_final %>%
   mutate(income_quintile = fct_reorder(.f = income_percentile, .x = income_dollars_standardized, 
                                      .fun = mean, na.rm = FALSE, .desc = TRUE)) %>%
