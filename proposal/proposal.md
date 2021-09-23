@@ -6,9 +6,6 @@ Income Equality in the United States
 library(tidyverse)
 ```
 
-    ## Warning in system("timedatectl", intern = TRUE): running command 'timedatectl'
-    ## had status 1
-
 ## Dataset
 
 ``` r
@@ -70,6 +67,13 @@ how it differs among races.
   - We don’t anticipate needing additional data, however it is possible
     we might include data such as home vs rent prices over time.
 
+  - In regards to how this research question will be displayed, we could
+    create a line plot across 3 different races so that the plot
+    contains 3 different lines of different races to compare for
+    context. We are also considering including markers for when
+    significant moments for the housing market occured (e.g. the stock
+    market crash).
+
 **Question 2** will visualize the income figures for each of household
 income quintile - how their figure changes over time for each racial
 group.
@@ -82,3 +86,8 @@ group.
   - There will be no external data to be merged in, but in the process,
     we will expect to perform some amount of data wrangling, e.g.,
     `mutate`, `filter`, `select`, and `pivot`.
+
+  - We plan to use boxplots or bar charts to show how the distribution
+    of income differs among different races. To show change over time we
+    would include a separate visualization. The interpretation for this
+    plot would be connected to that from question 1.
