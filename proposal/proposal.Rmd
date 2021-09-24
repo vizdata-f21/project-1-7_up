@@ -78,7 +78,6 @@ not all hispanic people are not latino. With that said, this misconstrues the
 interpretation of our data. It is important to give context for how race is
 identified, as suggested through the peer review.
 
-
 - In regards to how this research question will be displayed, we could create
 a line plot across 3 different races so that the plot contains 3 different lines
 of different races to compare for context. Using 3 different lines is easier
@@ -95,6 +94,12 @@ quintile - how their figure changes over time for each racial group.
 `income_quintile`), and household income (in 2019 Dollars for the first figure 
 and in ratio to the lowest quintile income per year and per race for the 
 second figure).
+
+- Looking at the data, 'race_wealth' provides a very similar source of data
+for the question we are exploring. However, it is crucial to note the difference
+between income and wealth as they are related but different. With that said, it
+would be interesting to see how wealth changed as income changed to see the 
+strength of this relationship. 
 
 - There will be no external data to be merged in, but in the process, we will 
 expect to perform some amount of data wrangling, e.g., `mutate`, `filter`, 
