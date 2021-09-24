@@ -65,11 +65,28 @@ differs among races.
 - We don't anticipate needing additional data, however it is possible we might 
 include data such as home vs rent prices over time.
 
+- Using both the 'home_owner' and 'income_mean' dataset, the factor of racial
+groups are very important to for our study of how homeownership has changed
+over time. To amend this, as suggested through the peer review, we will join
+the two datasets across the common indicator of race. However, both race columns
+contain different information. We will use a case_when function or if_else 
+statement to group "white, Not Hispanic" in one dataset to "White" in the other.
+
+- In regards to joining race from two different columns, a problem arises with 
+joining hispanic people and latino people. Latino people are hispanic, but
+not all hispanic people are not latino. With that said, this misconstrues the 
+interpretation of our data. It is important to give context for how race is
+identified, as suggested through the peer review.
+
+
 - In regards to how this research question will be displayed, we could create
 a line plot across 3 different races so that the plot contains 3 different lines
-of different races to compare for context. We are also considering including 
-markers for when significant moments for the housing market occured (e.g. the 
-stock market crash).
+of different races to compare for context. Using 3 different lines is easier
+to compare the homeownership percentages across racial group. Using a facet
+would make it slightly harder for the viewer to compare the different groups
+over time. Especially if the presentation is on the frant of the classroom.We 
+are also considering including markers for when significant moments for the
+housing market occured (e.g. thestock market crash).
 
 **Question 2** will visualize the income figures for each of household income 
 quintile - how their figure changes over time for each racial group.
