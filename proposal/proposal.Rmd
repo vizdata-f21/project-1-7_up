@@ -74,9 +74,8 @@ statement to group "white, Not Hispanic" in one dataset to "White" in the other.
 
 - In regards to joining race from two different columns, a problem arises with 
 joining hispanic people and latino people. Latino people are hispanic, but
-not all hispanic people are not latino. With that said, this misconstrues the 
-interpretation of our data. It is important to give context for how race is
-identified, as suggested through the peer review.
+not all hispanic people are not latino. With that said, for the sake of
+accuracy, we will made the new level as "hispanic/latino"
 
 - In regards to how this research question will be displayed, we could create
 a line plot across 3 different races so that the plot contains 3 different lines
