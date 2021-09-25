@@ -150,25 +150,50 @@ ggplot(data = income_mean_final,
   coord_fixed(ratio = 1 / 1.5)
 ```
 
+```{r}
+income_mean_final <- income_mean_final %>%
+  mutate(income_quintile = fct_reorder(.f = income_quintile, .x = income_dollars_standardized, 
+                                     .fun = mean, na.rm = FALSE, .desc = TRUE)) %>%
+  filter(year == 2019) %>%
+  filter(income_quintile != "top_5_pct_standardized") 
+
+income_mean_final
+```
+
+```{r}
+income_mean_final %>%
+  ggplot(aes(fill = income_quintile,
+             x = 1,
+             y = income_dollars_standardized)) + 
+  geom_col(width = 1, position = "fill") +
+  coord_polar(theta = "y") +
+  facet_wrap(. ~ race, nrow = 2) 
+  
+```
+
 ```{r plot3}
 income_mean_final %>%
   mutate(income_quintile = fct_reorder(.f = income_quintile, .x = income_dollars_standardized, 
                                      .fun = mean, na.rm = FALSE, .desc = TRUE)) %>%
   filter(year == 2019) %>%
   filter(income_quintile != "top_5_pct_standardized") %>%
-  ggplot(aes(fill = income_quintile, y = income_dollars_standardized, x = race, width = 0.5)) + 
-    geom_bar(position = "fill", stat = "identity") +
+  ggplot(aes(fill = income_quintile, 
+             x = income_dollars_standardized, 
+             y = reorder(race, desc(race)), 
+             width = 0.5)) + 
+  geom_bar(position = "fill", stat = "identity") +
   labs(
     title = "Income Gap: How much do top households earn compared to bottom households for each race?",
     subtitle = "7 Up: Blossom Mojekwu, Kartik Chamarti, Margaret Reed, Phillip Harmadi",
     x = "", y = "Household Income (as % of the whole population)", 
-    color = "Percentile",
-    caption = "Note: Household income in the bottom quintile (81st-100th) for all years are standardized to a value of 1 for each race."
+    fill = "Income Percentile",
+    caption = "Text: Household income ratio as compared to the bottom quintile (81st-100th)."
     ) +
   scale_colour_viridis_d() +
+  scale_x_continuous(labels = scales::percent_format(scale = 100)) +
   theme_minimal(base_size = 10) +
   theme(text = element_text(size = 9),
-        axis.caption = element_text(angle = 0, hjust = 0))
+        plot.caption = element_text(size = 8, hjust = 0))
 ```
 
 ```{r plot4}
