@@ -177,11 +177,12 @@ income_mean_final %>%
                                      .fun = mean, na.rm = FALSE, .desc = TRUE)) %>%
   filter(year == 2019) %>%
   filter(income_quintile != "top_5_pct_standardized") %>%
-  ggplot(aes(fill = income_quintile, 
+  ggplot(aes(fill = income_percentile, 
              x = income_dollars_standardized, 
              y = reorder(race, desc(race)), 
-             width = 0.5)) + 
+             width = 0.35)) + 
   geom_bar(position = "fill", stat = "identity") +
+  scale_fill_brewer(type = "seq", palette = "Blues", direction = -1) +
   labs(
     title = "Income Gap: How much do top households earn compared to bottom households for each race?",
     subtitle = "7 Up: Blossom Mojekwu, Kartik Chamarti, Margaret Reed, Phillip Harmadi",
