@@ -16,7 +16,7 @@ library(tidyverse)
 ### Figure 1
 
 ```{r load-data}
-income_mean <- read.csv(file = "data/income_mean.csv")
+income_mean <- read.csv(file = "../data/income_mean.csv")
 ```
 
 ```{r data-wrangle}
@@ -156,8 +156,19 @@ income_mean_final %>%
                                      .fun = mean, na.rm = FALSE, .desc = TRUE)) %>%
   filter(year == 2019) %>%
   filter(income_quintile != "top_5_pct_standardized") %>%
-  ggplot(aes(fill = income_quintile, y = income_dollars_standardized, x = race)) + 
-    geom_bar(position = "fill", stat = "identity")
+  ggplot(aes(fill = income_quintile, y = income_dollars_standardized, x = race, width = 0.5)) + 
+    geom_bar(position = "fill", stat = "identity") +
+  labs(
+    title = "Income Gap: How much do top households earn compared to bottom households for each race?",
+    subtitle = "7 Up: Blossom Mojekwu, Kartik Chamarti, Margaret Reed, Phillip Harmadi",
+    x = "", y = "Household Income (as % of the whole population)", 
+    color = "Percentile",
+    caption = "Note: Household income in the bottom quintile (81st-100th) for all years are standardized to a value of 1 for each race."
+    ) +
+  scale_colour_viridis_d() +
+  theme_minimal(base_size = 10) +
+  theme(text = element_text(size = 9),
+        axis.caption = element_text(angle = 0, hjust = 0))
 ```
 
 ```{r plot4}
