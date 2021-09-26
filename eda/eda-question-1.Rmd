@@ -56,7 +56,8 @@ home_owner %>%
     title = "Home ownership over time",
     subtitle = "by race"
   ) +
-  theme_minimal()
+  theme_minimal() +
+  scale_y_continuous(labels = scales::percent_format(scale = 100))
 ```
 
 ```{r second-look}
