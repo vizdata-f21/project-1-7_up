@@ -10,6 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r load-pkg}
 library(tidyverse)
 library(lubridate)
+library(plyr)
 ```
 
 ## Question 2
@@ -193,12 +194,11 @@ income_mean_sum <- income_mean_final %>%
   select(race,income_percentile, income_dollars_standardized) %>%
   group_by(race,income_percentile) %>%
   summarise(total_value = sum(income_dollars_standardized))
-rename(income_mean_sum, income_percentile_sum = income_percentile)
-rename(income_mean_sum, race_sum = race)
+#rename(income_mean_sum, income_percentile_sum = income_percentile)
+#rename(income_mean_sum, race_sum = race)
 
-total <- cbind(income_mean_use, income_mean_sum)
-
-ggplot(total, aes(fill = income_percentile, 
+income_mean_use <- bind_cols(income_mean_sum, income_mean_use)
+ggplot(check, aes(fill = income_percentile, 
              x = income_dollars_standardized, 
              y = reorder(race, desc(race)), 
              width = 0.35)) + 
@@ -215,9 +215,8 @@ ggplot(total, aes(fill = income_percentile,
   scale_x_continuous(labels = scales::percent_format(scale = 100)) +
   theme_minimal(base_size = 10) +
   theme(text = element_text(size = 9),
-        plot.caption = element_text(size = 8, hjust = 0)) +
-  coord_flip() 
-  #geom_text(data = income_mean_sum, aes(label = round(total_value,1)),size = 3, position = position_stack(vjust = 0.5))
+        plot.caption = element_text(size = 8, hjust = 0))
+  #geom_text(aes(label = round(total_value,1)),size = 3, position = position_stack(vjust = 0.5))
 
 
 
