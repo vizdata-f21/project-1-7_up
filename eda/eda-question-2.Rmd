@@ -179,44 +179,46 @@ income_mean_final %>%
 ```
 
 ```{r plot3}
-
-#the following dataframe that I created shows the total values for each box based on race and income quintile. 
-# finding a way to merge both dataframes should allow it so that the geom_text label
+# the following dataframe that I created shows the total values for each box 
+# based on race and income quintile. 
+# finding a way to merge both dataframes should allow it so that the geom_text 
+# label
 # can access the data.
-# link for help: https://stackoverflow.com/questions/6644997/showing-data-values-on-stacked-bar-chart-in-ggplot2
+# link for help: 
+# https://stackoverflow.com/questions/6644997/showing-data-values-on-stacked-bar-chart-in-ggplot2
 
-income_mean_use <- income_mean_final %>%
-  mutate(income_quintile = fct_reorder(.f = income_quintile, .x = income_dollars_standardized, 
-                                     .fun = mean, na.rm = FALSE, .desc = TRUE)) %>%
-  filter(year == 2019) %>%
-  filter(income_quintile != "top_5_pct_standardized")
-income_mean_sum <- income_mean_final %>%
-  select(race,income_percentile, income_dollars_standardized) %>%
-  group_by(race,income_percentile) %>%
-  summarise(total_value = sum(income_dollars_standardized))
-#rename(income_mean_sum, income_percentile_sum = income_percentile)
-#rename(income_mean_sum, race_sum = race)
-
-income_mean_use <- bind_cols(income_mean_sum, income_mean_use)
-ggplot(check, aes(fill = income_percentile, 
-             x = income_dollars_standardized, 
-             y = reorder(race, desc(race)), 
-             width = 0.35)) + 
-  geom_bar(position = "fill", stat = "identity") +
-  scale_fill_brewer(type = "seq", palette = "Blues", direction = -1) +
-  labs(
-    title = "Income Gap: How much do top households earn compared to bottom households for each race?",
-    subtitle = "7 Up: Blossom Mojekwu, Kartik Chamarti, Margaret Reed, Phillip Harmadi",
-    x = "", y = "Household Income (as % of the whole population)", 
-    fill = "Income Percentile",
-    caption = "Text: Household income ratio as compared to the bottom quintile (81st-100th)."
-    ) +
-  scale_colour_viridis_d() +
-  scale_x_continuous(labels = scales::percent_format(scale = 100)) +
-  theme_minimal(base_size = 10) +
-  theme(text = element_text(size = 9),
-        plot.caption = element_text(size = 8, hjust = 0))
-  #geom_text(aes(label = round(total_value,1)),size = 3, position = position_stack(vjust = 0.5))
+# income_mean_use <- income_mean_final %>%
+#   mutate(income_quintile = fct_reorder(.f = income_quintile, .x = income_dollars_standardized, 
+#                                      .fun = mean, na.rm = FALSE, .desc = TRUE)) %>%
+#   filter(year == 2019) %>%
+#   filter(income_quintile != "top_5_pct_standardized")
+# income_mean_sum <- income_mean_final %>%
+#   select(race,income_percentile, income_dollars_standardized) %>%
+#   group_by(race,income_percentile) %>%
+#   summarise(total_value = sum(income_dollars_standardized))
+# #rename(income_mean_sum, income_percentile_sum = income_percentile)
+# #rename(income_mean_sum, race_sum = race)
+# 
+# income_mean_use <- bind_cols(income_mean_sum, income_mean_use)
+# ggplot(check, aes(fill = income_percentile, 
+#                   x = income_dollars_standardized, 
+#              y = reorder(race, desc(race)), 
+#              width = 0.35)) + 
+#   geom_bar(position = "fill", stat = "identity") +
+#   scale_fill_brewer(type = "seq", palette = "Blues", direction = -1) +
+#   labs(
+#     title = "Income Gap: How much do top households earn compared to bottom households for each race?",
+#     subtitle = "7 Up: Blossom Mojekwu, Kartik Chamarti, Margaret Reed, Phillip Harmadi",
+#     x = "", y = "Household Income (as % of the whole population)", 
+#     fill = "Income Percentile",
+#     caption = "Text: Household income ratio as compared to the bottom quintile (81st-100th)."
+#     ) +
+#   scale_colour_viridis_d() +
+#   scale_x_continuous(labels = scales::percent_format(scale = 100)) +
+#   theme_minimal(base_size = 10) +
+#   theme(text = element_text(size = 9),
+#         plot.caption = element_text(size = 8, hjust = 0))
+#   #geom_text(aes(label = round(total_value,1)),size = 3, position = position_stack(vjust = 0.5))
 
 
 
@@ -246,6 +248,35 @@ income_mean_final %>%
 
 
 
+```{r plot6}
+income_mean %>%
+  filter(!str_detect(race, "Combination"),
+         !str_detect(race, "Not Hispanic"),
+         !str_detect(race, "All"),
+         dollar_type == "2019 Dollars",
+         income_quintile != "Top 5%") %>%
+  mutate(race = str_remove(race, ',?\\s(.*)'),
+         income_quintile = ordered(income_quintile, c("Lowest", "Second", 
+                                                      "Middle", "Fourth", 
+                                                      "Highest"))) %>%
+  ggplot(
+    aes(x = year, y = income_dollars, color = income_quintile)
+  ) +
+  geom_line() +
+  facet_wrap(.~race, ncol = 1) +
+  scale_y_continuous(labels = scales::label_number(big.mark = ",", 
+                                                   scale = 0.001, 
+                                                   suffix = "k",
+                                                   prefix = "$")) +
+  scale_color_brewer(type = "seq", palette = "Spectral", direction = -1) +
+  labs(
+    title = "Income Gap: How does income distribution each race?",
+    subtitle = "7 Up: Blossom Mojekwu, Kartik Chamarti, Margaret Reed, Phillip Harmadi",
+    x = "Year", y = "Mean household income", 
+    color = "Income quintile"
+    ) +
+  theme_minimal()
+```
 
 
 

@@ -11,6 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r load-pkgs, message = F}
 library(tidyverse)
 library(viridis)
+library(gganimate)
 ```
 
 ```{r load-data, message = F}
@@ -37,9 +38,10 @@ highest_year <- home_owner %>%
 ```{r first-look}
 home_owner %>%
   ggplot(
-    aes(x = year, y = home_owner_pct, color = race)
+    aes(x = year, y = home_owner_pct, color = race, shape = race)
   ) +
   geom_line() +
+  geom_point() +
   geom_vline(aes(xintercept = lowest_year), color = "grey") +
   geom_vline(aes(xintercept = highest_year), color = "grey") +
   geom_label(x = lowest_year - 5, y = 0.56, 
@@ -48,17 +50,20 @@ home_owner %>%
     geom_label(x = highest_year + 5, y = 0.56, 
             label = paste0("Year with highest \nhome ownership (", highest_year, ")"), 
             color = "black") +
+  # gganimate::transition_reveal(year) +
   scale_color_viridis_d() +
   labs(
     x = "Year",
     y = "Percent owning homes",
     color = "Race",
+    shape = "Race",
     title = "Home ownership over time",
     subtitle = "by race"
   ) +
   theme_minimal() +
   scale_y_continuous(labels = scales::percent_format(scale = 100))
 ```
+
 
 ```{r second-look}
 
