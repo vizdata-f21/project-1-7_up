@@ -1,5 +1,5 @@
 ---
-title: Wealth Inequality and Vibesssss
+title: Wealth Inequality 
 author: 7-UP
 output: github_document
 ---

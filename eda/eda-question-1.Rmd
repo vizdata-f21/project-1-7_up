@@ -14,8 +14,8 @@ library(viridis)
 ```
 
 ```{r load-data, message = F}
-income_mean <- read_csv(file = "data/income_mean.csv")
-home_owner <- read_csv("data/home_owner.csv")
+income_mean <- read.csv(file = "../data/income_mean.csv")
+home_owner <- read_csv(file = "../data/home_owner.csv")
 ```
 
 ```{r find-peaks}

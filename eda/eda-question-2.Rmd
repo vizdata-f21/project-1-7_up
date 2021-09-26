@@ -9,6 +9,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r load-pkg}
 library(tidyverse)
+library(lubridate)
 ```
 
 ## Question 2
@@ -17,6 +18,9 @@ library(tidyverse)
 
 ```{r load-data}
 income_mean <- read.csv(file = "../data/income_mean.csv")
+library(readr)
+income_mean_1 <- read_csv("../data/income_mean.csv")
+
 ```
 
 ```{r data-wrangle}
@@ -167,17 +171,34 @@ income_mean_final %>%
              y = income_dollars_standardized)) + 
   geom_col(width = 1, position = "fill") +
   coord_polar(theta = "y") +
-  facet_wrap(. ~ race, nrow = 2) 
+  facet_wrap(. ~ race, nrow = 2) +
+  labs(title = "Proportion of income quintiles across racial groups")
+
   
 ```
 
 ```{r plot3}
-income_mean_final %>%
+
+#the following dataframe that I created shows the total values for each box based on race and income quintile. 
+# finding a way to merge both dataframes should allow it so that the geom_text label
+# can access the data.
+# link for help: https://stackoverflow.com/questions/6644997/showing-data-values-on-stacked-bar-chart-in-ggplot2
+
+income_mean_use <- income_mean_final %>%
   mutate(income_quintile = fct_reorder(.f = income_quintile, .x = income_dollars_standardized, 
                                      .fun = mean, na.rm = FALSE, .desc = TRUE)) %>%
   filter(year == 2019) %>%
-  filter(income_quintile != "top_5_pct_standardized") %>%
-  ggplot(aes(fill = income_percentile, 
+  filter(income_quintile != "top_5_pct_standardized")
+income_mean_sum <- income_mean_final %>%
+  select(race,income_percentile, income_dollars_standardized) %>%
+  group_by(race,income_percentile) %>%
+  summarise(total_value = sum(income_dollars_standardized))
+rename(income_mean_sum, income_percentile_sum = income_percentile)
+rename(income_mean_sum, race_sum = race)
+
+total <- cbind(income_mean_use, income_mean_sum)
+
+ggplot(total, aes(fill = income_percentile, 
              x = income_dollars_standardized, 
              y = reorder(race, desc(race)), 
              width = 0.35)) + 
@@ -194,7 +215,13 @@ income_mean_final %>%
   scale_x_continuous(labels = scales::percent_format(scale = 100)) +
   theme_minimal(base_size = 10) +
   theme(text = element_text(size = 9),
-        plot.caption = element_text(size = 8, hjust = 0))
+        plot.caption = element_text(size = 8, hjust = 0)) +
+  coord_flip() 
+  #geom_text(data = income_mean_sum, aes(label = round(total_value,1)),size = 3, position = position_stack(vjust = 0.5))
+
+
+
+
 ```
 
 ```{r plot4}
