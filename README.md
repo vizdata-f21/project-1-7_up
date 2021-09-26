@@ -40,7 +40,7 @@ interested in this question.
 
 (1-2 paragraphs) Describe what types of plots you are going to make to
 address your question. For each plot, provide a clear explanation as to
-why this plot (e.g. boxplot, barplot, histogram, etc.) is best for
+why this plot (e.g. boxplot, barplot, histogram, etc.) is best for
 providing the information you are asking about. The two plots should be
 of different types, and at least one of the two plots needs to use
 either color mapping or facets.
@@ -90,12 +90,12 @@ We are making 2 different plots to address our question:
     we are dealing with multiple income quintiles.
 
   - **Household income ratio (with the lowest income quintile as the baseline) 
-  for each income quintile by race.** A ***bar graph*** is deemed appropriate 
-  for this plot since we are trying to compare how much the top income quintile 
-  earns more than the bottom income quintile for each racial groups and
-  understand which race has the highest gap. A bar graph is ideal since we can 
-  group or stack them together and color them based on the income quintile
-  variable, making the visualization easier to be understood by readers.
+    for each income quintile by race.** A ***bar graph*** is deemed appropriate 
+    for this plot since we are trying to compare how much the top income quintile 
+    earns more than the bottom income quintile for each racial groups and
+    understand which race has the highest gap. A bar graph is ideal since we can 
+    group or stack them together and color them based on the income quintile
+    variable, making the visualization easier to be understood by readers.
   
   (1-2 paragraphs) Describe what types of plots you are going to make to
 address your question. For each plot, provide a clear explanation as to
@@ -124,9 +124,40 @@ R or lattice plotting functions.
 
 ### Discussion
 
-(1-3 paragraphs) In the Discussion section, interpret the results of
-your analysis. Identify any trends revealed (or not revealed) by the
-plots. Speculate about why the data looks the way it does.
+From the first plot, we can roughly see that Whites and Asians has the highest
+household income level for all income percentiles within a particular race.
+The top 5% Blacks and Hispanic households approximately (in average) earns the 
+same as the top 20% Whites and Asians households. In addition, we can see that
+the data is only available for Hispanics starting from the early 1970s and 
+Asian starting from the early 2000s. 
+
+This is because the U.S. Census Bureau only formally include Hispanic and Asian 
+as a category on its surveys in the early 1970s and 2000s respectively. 
+In general, currently, Asian households has the highest household income in 
+average, followed by White, Hispanic, and lastly Black households.
+
+We suspect that income is the highest among Asians due to their highest
+educational attainment in average, and lowest in Blacks due to the systemic
+disadvantages they have experienced as outlined in the U.S. history.
+
+From the second plot, we can roughly have a gist that income inequality is the
+highest within Black households, followed by Asian, White, then Hispanic 
+households. 
+  - The top quintile (1st-20th) Black households earn 21x compared to
+    the bottom quintile (81st-100th) Black household. The figures are 16x, 15x, and 
+    13.5x for Asian, White, and Hispanic.
+  - The 2nd quintile (21st-40th) Black households earn 8.6x compared to
+    the bottom quintile (81st-100th) Black household. The figures are 7.4x, 6.8x, and 
+    6.5x for Asian, White, and Hispanic.
+    
+Our speculation is that income inequality is highest among the Blacks is due to 
+lack of high-paying jobs and opportunities for Blacks living in the rural Southern 
+States vs. those living in Northeastern or Midwestern urban areas. For Asians,
+we speculate that income inequality comes from different migration pattern and 
+sources, for example, Indian and Chinese Americans have a high proportion of
+professional college-educated citizens, while a lot of Southeast Asian Americans
+are doing blue-collared jobs and many came to the United States as refugees
+from less wealthy backgrounds.
 
 ## Presentation
 
