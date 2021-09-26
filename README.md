@@ -129,15 +129,12 @@ household income level for all income percentiles within a particular race.
 The top 5% Blacks and Hispanic households approximately (in average) earns the 
 same as the top 20% Whites and Asians households. In addition, we can see that
 the data is only available for Hispanics starting from the early 1970s and 
-Asian starting from the early 2000s. 
-
-This is because the U.S. Census Bureau only formally include Hispanic and Asian 
-as a category on its surveys in the early 1970s and 2000s respectively. 
-In general, currently, Asian households has the highest household income in 
-average, followed by White, Hispanic, and lastly Black households.
-
-We suspect that income is the highest among Asians due to their highest
-educational attainment in average, and lowest in Blacks due to the systemic
+Asian starting from the early 2000s. This is because the U.S. Census Bureau 
+only formally include Hispanic and Asian as a category on its surveys in the 
+early 1970s and 2000s respectively. In general, currently, Asian households has 
+the highest household income in average, followed by White, Hispanic, and lastly 
+Black households. We suspect that income is the highest among Asians due to their 
+highest educational attainment in average, and lowest in Blacks due to the systemic
 disadvantages they have experienced as outlined in the U.S. history.
 
 From the second plot, we can roughly have a gist that income inequality is the
@@ -149,7 +146,6 @@ households.
   - The 2nd quintile (21st-40th) Black households earn 8.6x compared to
     the bottom quintile (81st-100th) Black household. The figures are 7.4x, 6.8x, and 
     6.5x for Asian, White, and Hispanic.
-    
 Our speculation is that income inequality is highest among the Blacks is due to 
 lack of high-paying jobs and opportunities for Blacks living in the rural Southern 
 States vs. those living in Northeastern or Midwestern urban areas. For Asians,
