@@ -96,13 +96,6 @@ We are making 2 different plots to address our question:
     understand which race has the highest gap. A bar graph is ideal since we can 
     group or stack them together and color them based on the income quintile
     variable, making the visualization easier to be understood by readers.
-  
-  (1-2 paragraphs) Describe what types of plots you are going to make to
-address your question. For each plot, provide a clear explanation as to
-why this plot (e.g. boxplot, barplot, histogram, etc.) is best for
-providing the information you are asking about. The two plots should be
-of different types, and at least one of the two plots needs to use
-either color mapping or facets.
 
 ### Analysis
 
@@ -143,9 +136,10 @@ households.
   - The top quintile (1st-20th) Black households earn 21x compared to
     the bottom quintile (81st-100th) Black household. The figures are 16x, 15x, and 
     13.5x for Asian, White, and Hispanic.
-  - The 2nd quintile (21st-40th) Black households earn 8.6x compared to
+  - The second top quintile (21st-40th) Black households earn 8.6x compared to
     the bottom quintile (81st-100th) Black household. The figures are 7.4x, 6.8x, and 
     6.5x for Asian, White, and Hispanic.
+
 Our speculation is that income inequality is highest among the Blacks is due to 
 lack of high-paying jobs and opportunities for Blacks living in the rural Southern 
 States vs. those living in Northeastern or Midwestern urban areas. For Asians,
