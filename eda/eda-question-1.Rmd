@@ -17,6 +17,7 @@ library(viridis)
 ```{r load-data, message = F}
 income_mean <- read.csv(file = "../data/income_mean.csv")
 home_owner <- read_csv(file = "../data/home_owner.csv")
+race_wealth <- read_csv(file = "../data/race_wealth.csv")
 ```
 
 ```{r find-peaks}
@@ -74,5 +75,21 @@ home_owner %>%
 #income_mean %>%
  # filter(income_quintile == "Middle", race != "All Races") %>%
   #ggplot(aes(x = year, y = ))
+```
+
+```{r explore-homeowner-with-wealth}
+race_wealth <- race_wealth %>%
+  filter(type == "Average") %>%
+  drop_na() %>%
+  group_by(race, year)
+
+race_wealth
+
+ggplot(race_wealth, aes(x = year, y = wealth_family, color = race)) +
+  geom_point() +
+  geom_line() +
+  geom_vline(aes(xintercept = lowest_year), color = "grey", size = 1) +
+  geom_vline(aes(xintercept = highest_year), color = "grey", size = 1) +
+  theme_minimal()
 ```
 
