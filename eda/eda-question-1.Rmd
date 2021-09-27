@@ -65,7 +65,10 @@ home_owner %>%
 ```
 
 
-```{r second-look}
-
+```{r second-look- data}
+#rename()
+#income_mean %>%
+ # filter(income_quintile == "Middle", race != "All Races") %>%
+  #ggplot(aes(x = year, y = ))
 ```
 
