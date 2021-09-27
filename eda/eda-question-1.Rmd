@@ -68,9 +68,15 @@ home_owner %>%
 
 
 ```{r second-look- data}
-#rename()
-#income_mean %>%
- # filter(income_quintile == "Middle", race != "All Races") %>%
-  #ggplot(aes(x = year, y = ))
+home_owner %>%
+  filter(year > "1997") %>%
+  mutate(flag = if_else(
+    year >= 2008,
+    TRUE,
+    FALSE
+  )) %>%
+  select(-year) %>%
+  group_by(race, flag) %>%
+  summarise(avg_h_o = median(home_owner_pct))
 ```
 
