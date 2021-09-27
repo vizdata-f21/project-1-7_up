@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r load-pkgs, message = F}
 library(tidyverse)
 library(viridis)
-library(gganimate)
+#library(gganimate)
 ```
 
 ```{r load-data, message = F}
@@ -32,6 +32,8 @@ highest_year <- home_owner %>%
   arrange(desc(mean_pct_unweighted)) %>%
   slice(1) %>%
   pull(year)  
+lowest_year
+highest_year
 ```
 
 
