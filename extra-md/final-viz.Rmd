@@ -1,5 +1,5 @@
 ---
-title: "eda-02"
+title: "Final Viz"
 output: html_document
 ---
 
@@ -11,14 +11,15 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r load-pkgs, message = F}
 library(tidyverse)
 library(viridis)
-#library(gganimate)
+# library(gganimate)
 ```
 
 ```{r load-data, message = F}
 income_mean <- read.csv(file = "../data/income_mean.csv")
 home_owner <- read_csv(file = "../data/home_owner.csv")
-race_wealth <- read_csv(file = "../data/race_wealth.csv")
 ```
+
+### Question 1
 
 ```{r find-peaks}
 lowest_year <- home_owner %>%
@@ -33,11 +34,9 @@ highest_year <- home_owner %>%
   arrange(desc(mean_pct_unweighted)) %>%
   slice(1) %>%
   pull(year)  
-lowest_year
-highest_year
 ```
 
-
+#### Plot 1.a
 ```{r first-look}
 home_owner %>%
   ggplot(
@@ -68,34 +67,3 @@ home_owner %>%
   theme_minimal() +
   scale_y_continuous(labels = scales::percent_format(scale = 100))
 ```
-
-
-```{r second-look- data}
-home_owner %>%
-  filter(year > "1997") %>%
-  mutate(flag = if_else(
-    year >= 2008,
-    TRUE,
-    FALSE
-  )) %>%
-  select(-year) %>%
-  group_by(race, flag) %>%
-  summarise(avg_h_o = median(home_owner_pct))
-```
-
-```{r explore-homeowner-with-wealth}
-race_wealth <- race_wealth %>%
-  filter(type == "Average") %>%
-  drop_na() %>%
-  group_by(race, year)
-
-race_wealth
-
-ggplot(race_wealth, aes(x = year, y = wealth_family, color = race)) +
-  geom_point() +
-  geom_line() +
-  geom_vline(aes(xintercept = lowest_year), color = "grey", size = 1) +
-  geom_vline(aes(xintercept = highest_year), color = "grey", size = 1) +
-  theme_minimal()
-```
-
