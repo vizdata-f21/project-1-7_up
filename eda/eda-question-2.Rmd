@@ -20,7 +20,6 @@ library(gganimate)
 
 ```{r load-data}
 income_mean <- read.csv(file = "../data/income_mean.csv")
-income_mean_1 <- read_csv("../data/income_mean.csv")
 
 ```
 
