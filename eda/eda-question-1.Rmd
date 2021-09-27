@@ -41,15 +41,17 @@ home_owner %>%
     aes(x = year, y = home_owner_pct, color = race, shape = race)
   ) +
   geom_line() +
-  geom_point() +
+  geom_point(alpha = 0.5, size = 1) +
   geom_vline(aes(xintercept = lowest_year), color = "grey") +
   geom_vline(aes(xintercept = highest_year), color = "grey") +
   geom_label(x = lowest_year - 5, y = 0.56, 
             label = paste0("Year with lowest \nhome ownership (", lowest_year, ")"), 
-            color = "black") +
+            color = "black",
+            label.size = NA) +
     geom_label(x = highest_year + 5, y = 0.56, 
             label = paste0("Year with highest \nhome ownership (", highest_year, ")"), 
-            color = "black") +
+            color = "black",
+            label.size = NA) +
   # gganimate::transition_reveal(year) +
   scale_color_viridis_d() +
   labs(
