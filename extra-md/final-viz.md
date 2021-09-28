@@ -1,27 +1,20 @@
----
-title: "Final Viz"
-output: github_document
----
+Final Viz
+================
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
-
-```{r load-pkgs, message = F}
+``` r
 library(tidyverse)
 library(viridis)
 # library(gganimate)
 ```
 
-```{r load-data, message = F}
+``` r
 income_mean <- read.csv(file = "../data/income_mean.csv")
 home_owner <- read_csv(file = "../data/home_owner.csv")
 ```
 
 ### Question 1
 
-```{r find-peaks}
+``` r
 lowest_year <- home_owner %>%
   group_by(year) %>%
   summarize(mean_pct_unweighted = mean(home_owner_pct)) %>%
@@ -37,7 +30,8 @@ highest_year <- home_owner %>%
 ```
 
 #### Plot 1.a
-```{r first-look}
+
+``` r
 home_owner %>%
   ggplot(
     aes(x = year, y = home_owner_pct, color = race, shape = race)
@@ -68,13 +62,13 @@ home_owner %>%
   scale_y_continuous(labels = scales::percent_format(scale = 100))
 ```
 
-
+![](final-viz_files/figure-gfm/first-look-1.png)<!-- -->
 
 ### Question 2
 
 #### Plot 2.a
 
-```{r plot-2a}
+``` r
 income_mean %>%
   filter(!str_detect(race, "Combination"),
          !str_detect(race, "Not Hispanic"),
@@ -106,3 +100,4 @@ income_mean %>%
   theme(legend.position = "bottom")
 ```
 
+![](final-viz_files/figure-gfm/plot-2a-1.png)<!-- -->
