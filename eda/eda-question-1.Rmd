@@ -11,6 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r load-pkgs, message = F}
 library(tidyverse)
 library(viridis)
+library(reprex)
 #library(gganimate)
 ```
 
@@ -81,6 +82,14 @@ home_owner %>%
   select(-year) %>%
   group_by(race, flag) %>%
   summarise(avg_h_o = median(home_owner_pct))
+
+#make a bar plot showing all of these different values
+#facet across the flag variable
+#Rename the variable for pre and post crisis
+#make it look fancy
+#make a mockup of animated version across the different years
+#ask which is better
+#finish write up for it
 ```
 
 ```{r explore-homeowner-with-wealth}
