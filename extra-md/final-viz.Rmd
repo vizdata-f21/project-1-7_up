@@ -1,6 +1,6 @@
 ---
 title: "Final Viz"
-output: github_document
+output: html_document
 ---
 
 ```{r setup, include=FALSE}
@@ -11,7 +11,6 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r load-pkgs, message = F}
 library(tidyverse)
 library(viridis)
-library(dplyr)
 # library(gganimate)
 ```
 
@@ -81,20 +80,22 @@ income_mean <- income_mean %>%
          dollar_type == "2019 Dollars",
          income_quintile != "Top 5%") %>%
   group_by(year, race, income_quintile) %>%
-  summarize(income_dollars =  mean(income_dollars)) %>%
+  summarize(income_dollars =  mean(income_dollars), 
+            .groups = "drop") %>%
   mutate(race = str_remove(race, ',?\\s(.*)'),
          income_quintile = ordered(income_quintile, c("Lowest", "Second", 
                                                       "Middle", "Fourth", 
                                                       "Highest")),
       income_percentile = case_when(
         income_quintile == "Top 5%"   ~ "1st - 5th",
-      income_quintile == "Highest"  ~ "Top 20%",
-      income_quintile == "Fourth"   ~ "21-40 %",
-      income_quintile == "Middle"   ~ "41-60 %",
-      income_quintile == "Second"   ~ "61-80 %",
-      income_quintile == "Lowest"   ~ "Bottom 20%"),
-      income_percentile = ordered(income_percentile, 
-                                  c("Bottom 20%", "61-80 %", "41-60 %", "21-40 %", "Top 20%")))
+        income_quintile == "Highest"  ~ "Top 20%",
+        income_quintile == "Fourth"   ~ "21-40 %",
+        income_quintile == "Middle"   ~ "41-60 %",
+        income_quintile == "Second"   ~ "61-80 %",
+        income_quintile == "Lowest"   ~ "Bottom 20%"),
+        income_percentile = ordered(income_percentile, 
+                                  c("Bottom 20%", "61-80 %", "41-60 %", 
+                                    "21-40 %", "Top 20%")))
 ```
 
 ```{r perc-plot}
@@ -109,7 +110,7 @@ highest_perc_table <- income_mean %>%
 
 #### Plot 2.a
 
-```{r plot-2a}
+```{r plot-overtime}
 income_mean %>%
   ggplot(
     aes(x = year, y = income_dollars, color = income_percentile)
@@ -120,11 +121,13 @@ income_mean %>%
                                                    scale = 0.001, 
                                                    suffix = "k",
                                                    prefix = "$")) +
-  scale_color_manual(values = c("grey40", "grey50", "grey60", "grey70", "firebrick2")) +
+  scale_color_manual(values = c("grey40", "grey50", "grey60", "grey70", 
+                                "firebrick2")) +
   labs(
     title = "Income Gap: How does income distribution compare for each race?",
     subtitle = "By income quintile",
-    x = "Year", y = "Mean household income", 
+    x = "Year", 
+    y = "Mean household income", 
     color = "Income quintile",
     caption = "7 Up: Blossom Mojekwu, Kartik Chamarti, Margaret Reed, Phillip Harmadi"
     ) +
@@ -134,20 +137,31 @@ income_mean %>%
 
 #### Plot 2.b
 
-```{r plot-2b}
+```{r plot-bar}
 income_mean %>%
   filter(year == 2019) %>%
-  ggplot(mapping = aes(x = income_dollars, 
-             y = reorder(race, desc(race)),
-             width = 0.35)) + 
-  geom_bar(position = "fill", stat = "identity", aes(fill = income_percentile)) +
-  geom_text(data = highest_perc_table, aes(y = race, label = paste0(round(percent, 2)*100, "%")),
-            x = 0.8, color = "white") +
+  ggplot(
+    aes(x = income_dollars,
+        y = reorder(race, desc(race))),
+    width = 0.35
+    ) + 
+  geom_bar(
+    position = "fill", 
+    stat = "identity", 
+    aes(fill = reorder(income_percentile, desc(income_percentile)))
+    ) +
+  geom_text(
+    data = highest_perc_table, 
+    aes(
+      y = race, label = paste0(round(percent, 2)*100, "%")),
+    x = 0.8, 
+    color = "white") +
   scale_fill_brewer(type = "seq", palette = "Blues", direction = -1) +
   labs(
     title = "Income Gap: How much do top households earn compared to bottom households \nfor each race?",
     subtitle = "In 2019",
-    x = "Percent of total mean income", y = "Race", 
+    x = "Percent of total mean income", 
+    y = "Race", 
     fill = "Income Quintile",
     caption = "7 Up: Blossom Mojekwu, Kartik Chamarti, Margaret Reed, Phillip Harmadi"
     ) +
@@ -156,5 +170,6 @@ income_mean %>%
   theme_minimal(base_size = 10) +
   theme(text = element_text(size = 9))
 ```
+
 
 
