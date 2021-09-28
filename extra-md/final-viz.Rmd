@@ -87,12 +87,14 @@ income_mean <- income_mean %>%
                                                       "Middle", "Fourth", 
                                                       "Highest")),
       income_percentile = case_when(
-      income_quintile == "Top 5%"   ~ "1st - 5th",
-      income_quintile == "Highest"  ~ "1st - 20th",
-      income_quintile == "Second"   ~ "21st - 40th",
-      income_quintile == "Middle"   ~ "41st - 60th",
-      income_quintile == "Fourth"   ~ "61st - 80th",
-      income_quintile == "Lowest"   ~ "81st - 100th"))
+        income_quintile == "Top 5%"   ~ "1st - 5th",
+      income_quintile == "Highest"  ~ "Top 20%",
+      income_quintile == "Fourth"   ~ "21-40 %",
+      income_quintile == "Middle"   ~ "41-60 %",
+      income_quintile == "Second"   ~ "61-80 %",
+      income_quintile == "Lowest"   ~ "Bottom 20%"),
+      income_percentile = ordered(income_percentile, 
+                                  c("Bottom 20%", "61-80 %", "41-60 %", "21-40 %", "Top 20%")))
 ```
 
 ```{r perc-plot}
@@ -118,7 +120,7 @@ income_mean %>%
                                                    scale = 0.001, 
                                                    suffix = "k",
                                                    prefix = "$")) +
-  scale_color_manual(values = c("firebrick2", "grey40", "grey50", "grey60", "grey70")) +
+  scale_color_manual(values = c("grey40", "grey50", "grey60", "grey70", "firebrick2")) +
   labs(
     title = "Income Gap: How does income distribution compare for each race?",
     subtitle = "By income quintile",
@@ -139,7 +141,7 @@ income_mean %>%
              y = reorder(race, desc(race)),
              width = 0.35)) + 
   geom_bar(position = "fill", stat = "identity", aes(fill = income_percentile)) +
-  geom_text(data = highest_perc_table, aes(y = race, label = round(percent, 2)),
+  geom_text(data = highest_perc_table, aes(y = race, label = paste0(round(percent, 2)*100, "%")),
             x = 0.8, color = "white") +
   scale_fill_brewer(type = "seq", palette = "Blues", direction = -1) +
   labs(
