@@ -1,7 +1,7 @@
 ---
-title: "Presentation title"
-subtitle: "Presentation subtitle (if any)"
-author: "Team name <br> Names of team members"
+title: "Income and home-ownership over time"
+subtitle: "By race"
+author: "Team 7-Up <br> Blossom Mojekwu, Kartik Chamarti, Margaret Reed, Phillip Harmadi"
 institute: "Duke University"
 date: "`r Sys.Date()`"
 output:
@@ -20,9 +20,11 @@ output:
 # Remove any packages from this list that you're not using
 library(tidyverse)
 library(tidymodels)
-library(palmerpenguins)
 library(knitr)
+library(viridis)
 library(xaringanthemer)
+
+library(palmerpenguins)
 ```
 
 ```{r setup, include=FALSE}
@@ -37,7 +39,8 @@ knitr::opts_chunk$set(
 ```
 
 ```{r load-data, include=FALSE}
-# Load your data here
+income_mean <- read_csv(file = "../data/income_mean.csv")
+home_owner <- read_csv(file = "../data/home_owner.csv")
 ```
 
 ```{r style-slides, echo = FALSE}
@@ -199,3 +202,27 @@ class: inverse, middle, center
 `xaringanthemer` provides some solutions for this that: https://pkg.garrickadenbuie.com/xaringanthemer.
 
 - And if you want more bells and whistles, there is also `xaringanExtra`: https://pkg.garrickadenbuie.com/xaringanExtra.
+
+
+---
+
+# Intro
+
+---
+
+# Question 1
+
+---
+
+# Question 2
+
+---
+
+# Thank you!
+
+---
+
+
+
+
+

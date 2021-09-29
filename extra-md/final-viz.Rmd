@@ -11,6 +11,8 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r load-pkgs, message = F}
 library(tidyverse)
 library(viridis)
+library(ggrepel)
+library(ggthemes)
 # library(gganimate)
 ```
 
@@ -33,7 +35,11 @@ highest_year <- home_owner %>%
   summarize(mean_pct_unweighted = mean(home_owner_pct)) %>%
   arrange(desc(mean_pct_unweighted)) %>%
   slice(1) %>%
-  pull(year)  
+  pull(year)
+
+last_year <- home_owner %>%
+  group_by(race) %>%
+  filter(year == max(year))
 ```
 
 #### Plot 1.a
@@ -42,8 +48,8 @@ home_owner %>%
   ggplot(
     aes(x = year, y = home_owner_pct, color = race, shape = race)
   ) +
-  geom_line() +
-  geom_point(alpha = 0.5, size = 1) +
+  geom_line(size = 1) +
+  geom_point(alpha = 0.5, size = 1.5) +
   geom_vline(aes(xintercept = lowest_year), color = "grey") +
   geom_vline(aes(xintercept = highest_year), color = "grey") +
   geom_label(x = lowest_year - 5, y = 0.56, 
@@ -54,8 +60,17 @@ home_owner %>%
             label = paste0("Year with highest \nhome ownership (", highest_year, ")"), 
             color = "black",
             label.size = NA) +
+  geom_text_repel(data = last_year,
+                  aes(label = race),
+                  direction = "y",
+                  nudge_x = 2,
+                  nudge_y = 0.02,
+                  size = 5,
+                  segment.linetype = "dotted") +
   # gganimate::transition_reveal(year) +
-  scale_color_viridis_d() +
+  # scale_color_viridis_d() +
+  scale_color_manual(values=c("#859a6a", "#ad6e72", "#5d7a96")) +
+  scale_y_continuous(labels = scales::percent_format(scale = 100)) +
   labs(
     x = "Year",
     y = "Percent owning homes",
@@ -65,7 +80,7 @@ home_owner %>%
     subtitle = "by race"
   ) +
   theme_minimal() +
-  scale_y_continuous(labels = scales::percent_format(scale = 100))
+  theme(legend.position = "none")
 ```
 
 
@@ -142,8 +157,7 @@ income_mean %>%
   filter(year == 2019) %>%
   ggplot(
     aes(x = income_dollars,
-        y = reorder(race, desc(race))),
-    width = 0.35
+        y = reorder(race, desc(race)))
     ) + 
   geom_bar(
     position = "fill", 
