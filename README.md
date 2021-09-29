@@ -112,12 +112,8 @@ easier to be understood by readers.
 
 ### Analysis
 
-(2-3 code blocks, 2 figures, text/code comments as needed) In this
-section, provide the code that generates your plots. Use scale functions
-to provide nice axis labels and guides. You are welcome to use theme
-functions to customize the appearance of your plot, but you are not
-required to do so. All plots must be made with ggplot2. Do not use base
-R or lattice plotting functions.
+In this section, provide the code that generates your plots. Use scale functions to provide nice axis labels and guides. You are welcome to use theme
+functions to customize the appearance of your plot, but you are not required to do so. 
 
 #### Plot 2.a
 
@@ -129,10 +125,6 @@ R or lattice plotting functions.
 
 ### Discussion
 
-(1-3 paragraphs) In the Discussion section, interpret the results of
-your analysis. Identify any trends revealed (or not revealed) by the
-plots. Speculate about why the data looks the way it does.
-
 From the first plot, we found that those who are asian tended to have
 the highest average income, and their top 20% made far more than that of
 the rest of the racial groups. Overtime, income disparities in all the
@@ -141,18 +133,19 @@ earners. This increase in disparity seemed to be most noticeable for the
 white observations. We suspect that income is the highest among Asians
 due to their high educational attainment on average, and lowest in
 Blacks due to the systemic disadvantages they have experienced
-throughout U.S. history. From the second plot, we can roughly surmise
-that income inequality is the highest within Black households, followed
-by Asian, White, then Hispanic households. Our speculation is that
-income inequality is highest among the Black category on average,
-because of lack of high-paying jobs and opportunities for Black
-individuals living in the rural Southern States vs.  those living in
-Northeastern or Midwestern urban areas. For Asians, we speculate that
-income inequality comes from different migration patterns and sources.
-For example, Indian and Chinese Americans have a high proportion of
-professional college-educated citizens, while a lot of Southeast Asian
-Americans are doing blue-collared jobs and many came to the United
-States as refugees from less wealthy backgrounds.
+throughout U.S. history. 
+
+From the second plot, we can roughly surmise that income inequality 
+is the highest within Black households, followed by Asian, White, 
+then Hispanic households. Our speculation is that income inequality 
+is highest among the Black category on average, because of lack of 
+high-paying jobs and opportunities for Black individuals living in the 
+rural Southern States vs.  those living in Northeastern or Midwestern 
+urban areas. For Asians, we speculate that income inequality comes from 
+different migration patterns and sources. For example, Indian and Chinese 
+Americans have a high proportion of professional college-educated citizens, 
+while a lot of Southeast Asian Americans are doing blue-collared jobs and 
+many came to the United States as refugees from less wealthy backgrounds.
 
 ## Presentation
 
