@@ -16,18 +16,14 @@ output:
 ---
 
 ```{r load-packages, include = FALSE}
-# Add any additional packages you need to this chunk
-# Remove any packages from this list that you're not using
 library(tidyverse)
-library(tidymodels)
 library(knitr)
 library(viridis)
 library(xaringanthemer)
-
-library(palmerpenguins)
+library(ggrepel)
 ```
 
-```{r setup, include=FALSE}
+```{r setup, include = FALSE}
 # For better figure resolution
 knitr::opts_chunk$set(
   fig.retina = 3, 
@@ -38,7 +34,7 @@ knitr::opts_chunk$set(
   )
 ```
 
-```{r load-data, include=FALSE}
+```{r load-data, include = FALSE}
 income_mean <- read_csv(file = "../data/income_mean.csv")
 home_owner <- read_csv(file = "../data/home_owner.csv")
 ```
@@ -49,172 +45,189 @@ style_xaringan(
 )
 ```
 
-class: inverse, middle, center
-
-# Using xaringan
-
----
-
-## xaringan
-
-- The presentation is created using the `xaringan` package
-
-- Use `---` to separate slides and `--` for incremental builds
-
---
-
-- Like this
-
----
-
-## Layouts
-
-You can use plain text
-
-- or bullet points
-
-.pull-left[
-or text in two columns $^*$
-]
-.pull-right[
-- like
-- this
-]
-
-.footnote[
-[*] And add footnotes
-]
-
----
-
-## Code
-
-```{r boring-regression}
-# a boring regression
-model <- lm(dist ~ speed, data = cars)
-tidy(model)
-glance(model)
-```
-
----
-
-## Plots
-
-```{r recode-species, echo = FALSE}
-# In this chunk I'm doing a bunch of analysis that I don't want to present 
-# in my slides. But I need the resulting data frame for a plot I want to present.
-penguins_modified <- penguins %>%
-  mutate(species = fct_other(species, keep = "Adelie"))
-```
-
-```{r plot-penguins, echo = FALSE, warning = FALSE, fig.alt = "Body mass vs. flipper lenght of Palmer Penguins for species Adelie and all the others combined together. There is a relatively strong, positive relationship between the two variables. The Adelie penguins are clustered together but they don't exhibit a different trend than the rest of the penguins."}
-# Code hidden with echo = FALSE
-# Uses modified penguins dataset from previous chunk
-# Play around with height and width until you're happy with the look
-ggplot(penguins_modified, aes(x = flipper_length_mm, y = body_mass_g, color = species)) +
-  geom_point() + 
-  theme_minimal()
-```
-
----
-
-## Plot and text
-
-.pull-left[
-- Some text
-- goes here
-]
-.pull-right[
-```{r warning=FALSE, out.width="100%", fig.width=4, echo=FALSE}
-# see how I changed out.width and fig.width from defaults
-# to make the figure bigger
-ggplot(penguins, aes(x = bill_length_mm, y = species, color = species)) +
-  geom_boxplot() +
-  theme_minimal()
-```
-]
-
----
-
-class: inverse, middle, center
-
-# A new section...
-
----
-
-## Tables
-
-If you want to generate a table, make sure it is in the HTML format (instead of Markdown or other formats), e.g.,
-
-```{r penguins-table, echo = FALSE}
-kable(head(penguins), format = "html")
-```
-
----
-
-## Images
-
-```{r castle, echo = FALSE, out.width = "40%", fig.align = "center", fig.cap = "Image credit: Danielle Navarro, Percolate."}
-include_graphics("img/watercolour_sys02_img32_percolate.jpg")
-```
-
-Or you can also include a full page image. See next slide.
-
----
-
-background-image: url(img/watercolour_sys02_img32_percolate.jpg)
-
----
-
-## Math Expressions
-
-You can write LaTeX math expressions inside a pair of dollar signs, e.g. &#36;\alpha+\beta$ renders $\alpha+\beta$. You can use the display style with double dollar signs:
-
-```
-$$\bar{X}=\frac{1}{n}\sum_{i=1}^nX_i$$
-```
-
-$$\bar{X}=\frac{1}{n}\sum_{i=1}^nX_i$$
-
-Limitations:
-
-1. The source code of a LaTeX math expression must be in one line, unless it is inside a pair of double dollar signs, in which case the starting `$$` must appear in the very beginning of a line, followed immediately by a non-space character, and the ending `$$` must be at the end of a line, led by a non-space character;
-
-1. There should not be spaces after the opening `$` or before the closing `$`.
-
-1. Math does not work on the title slide (see [#61](https://github.com/yihui/xaringan/issues/61) for a workaround).
-
----
-
-class: inverse, middle, center
-
-# Wrap up
-
----
-
-## Feeling adventurous?
-
-- Want to find out more about `xaringan`? See https://slides.yihui.name/xaringan/#1.
-
-- You are welcomed to use the default styling of the slides. In fact, that's what I expect majority of you will do. You will differentiate yourself with the content of your presentation.
-
-- But some of you might want to play around with slide styling. The 
-`xaringanthemer` provides some solutions for this that: https://pkg.garrickadenbuie.com/xaringanthemer.
-
-- And if you want more bells and whistles, there is also `xaringanExtra`: https://pkg.garrickadenbuie.com/xaringanExtra.
-
-
----
+Class: middle, inverse, center
 
 # Intro
 
 ---
 
-# Question 1
+# The data
 
 ---
 
+# Question 1
+
+How has home-ownership changed over time, and how does this trend vary between 
+different races?
+
+---
+
+```{r find-peaks, include = FALSE}
+lowest_year <- home_owner %>%
+  group_by(year) %>%
+  summarize(mean_pct_unweighted = mean(home_owner_pct)) %>%
+  arrange(mean_pct_unweighted) %>%
+  slice(1) %>%
+  pull(year)
+highest_year <- home_owner %>%
+  group_by(year) %>%
+  summarize(mean_pct_unweighted = mean(home_owner_pct)) %>%
+  arrange(desc(mean_pct_unweighted)) %>%
+  slice(1) %>%
+  pull(year)
+
+last_year <- home_owner %>%
+  group_by(race) %>%
+  filter(year == max(year))
+```
+
+
+```{r first-look, echo = FALSE}
+home_owner %>%
+  ggplot(
+    aes(x = year, y = home_owner_pct, color = race)
+  ) +
+  geom_line(size = 1) +
+  geom_point(alpha = 0.5, size = 1.5, aes(shape = race)) +
+  geom_vline(aes(xintercept = lowest_year), color = "grey") +
+  geom_vline(aes(xintercept = highest_year), color = "grey") +
+  annotate(geom = "text",
+    x = lowest_year - 5, 
+    y = 0.56,
+    label = paste0("Year with lowest \nhome ownership (", lowest_year, ")"),
+    color = "black"
+    ) +
+  annotate(
+    geom = "text",
+    x = highest_year + 5, 
+    y = 0.56, 
+    label = paste0("Year with highest \nhome ownership (", highest_year, ")"), 
+    color = "black"
+    ) +
+  geom_text_repel(
+    data = last_year,
+    aes(label = race),
+    direction = "y",
+    nudge_x = 2,
+    nudge_y = 0.03,
+    size = 4,
+    segment.linetype = "dotted"
+    ) +
+  scale_color_manual(values = c("#859a6a", "#ad6e72", "#5d7a96")) +
+  scale_y_continuous(labels = scales::percent_format(scale = 100)) +
+  labs(
+    x = "Year",
+    y = "Percent owning homes",
+    color = "Race",
+    shape = "Race",
+    title = "Home ownership over time",
+    subtitle = "by race"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
+---
 # Question 2
+
+What does household income level look like for each racial group over time, and 
+how do household income disparities compare among different racial groups?
+
+---
+
+```{r data-wrangle-2, include = FALSE}
+income_mean <- income_mean %>%
+  filter(!str_detect(race, "Combination"),
+         !str_detect(race, "Not Hispanic"),
+         !str_detect(race, "All"),
+         dollar_type == "2019 Dollars",
+         income_quintile != "Top 5%") %>%
+  group_by(year, race, income_quintile) %>%
+  summarize(income_dollars =  mean(income_dollars), 
+            .groups = "drop") %>%
+  mutate(race = str_remove(race, ',?\\s(.*)'),
+         income_quintile = ordered(income_quintile, c("Lowest", "Second", 
+                                                      "Middle", "Fourth", 
+                                                      "Highest")),
+      income_percentile = case_when(
+        income_quintile == "Top 5%"   ~ "1st - 5th",
+        income_quintile == "Highest"  ~ "Top 20%",
+        income_quintile == "Fourth"   ~ "21-40 %",
+        income_quintile == "Middle"   ~ "41-60 %",
+        income_quintile == "Second"   ~ "61-80 %",
+        income_quintile == "Lowest"   ~ "Bottom 20%"),
+        income_percentile = ordered(income_percentile, 
+                                  c("Bottom 20%", "61-80 %", "41-60 %", 
+                                    "21-40 %", "Top 20%")))
+```
+
+```{r perc-plot, include = FALSE}
+highest_perc_table <- income_mean %>%
+  filter(year == 2019) %>%
+  group_by(race) %>%
+  transmute(income_quintile, percent = income_dollars/sum(income_dollars)) %>%
+  filter(income_quintile == "Highest")
+```
+
+```{r plot-overtime, echo = FALSE}
+income_mean %>%
+  ggplot(
+    aes(x = year, y = income_dollars, color = income_percentile)
+  ) +
+  geom_line() +
+  facet_wrap(.~race, nrow = 1) +
+  scale_y_continuous(labels = scales::label_number(big.mark = ",", 
+                                                   scale = 0.001, 
+                                                   suffix = "k",
+                                                   prefix = "$")) +
+  scale_color_manual(values = c("grey40", "grey50", "grey60", "grey70", 
+                                "firebrick2")) +
+  labs(
+    title = "Income Gap: How does income distribution compare for each race?",
+    subtitle = "By income quintile",
+    x = "Year", 
+    y = "Mean household income", 
+    color = "Income quintile",
+    caption = "7 Up: Blossom Mojekwu, Kartik Chamarti, Margaret Reed, Phillip Harmadi"
+    ) +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+```
+
+---
+
+```{r plot-bar, echo = FALSE}
+income_mean %>%
+  filter(year == 2019) %>%
+  ggplot(
+    aes(x = income_dollars,
+        y = reorder(race, desc(race)))
+    ) + 
+  geom_bar(
+    position = "fill", 
+    stat = "identity", 
+    aes(fill = reorder(income_percentile, desc(income_percentile)))
+    ) +
+  geom_text(
+    data = highest_perc_table, 
+    aes(
+      y = race, label = paste0(round(percent, 2)*100, "%")),
+    x = 0.8, 
+    color = "white") +
+  scale_fill_brewer(type = "seq", palette = "Blues", direction = -1) +
+  labs(
+    title = "Income Gap: How much do top households earn compared to bottom households \nfor each race?",
+    subtitle = "In 2019",
+    x = "Percent of total mean income", 
+    y = "Race", 
+    fill = "Income Quintile",
+    caption = "7 Up: Blossom Mojekwu, Kartik Chamarti, Margaret Reed, Phillip Harmadi"
+    ) +
+  scale_colour_viridis_d() +
+  scale_x_continuous(labels = scales::percent_format(scale = 100)) +
+  theme_minimal(base_size = 10) +
+  theme(text = element_text(size = 9))
+```
 
 ---
 

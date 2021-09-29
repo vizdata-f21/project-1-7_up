@@ -52,14 +52,19 @@ home_owner %>%
   geom_point(alpha = 0.5, size = 1.5) +
   geom_vline(aes(xintercept = lowest_year), color = "grey") +
   geom_vline(aes(xintercept = highest_year), color = "grey") +
-  geom_label(x = lowest_year - 5, y = 0.56, 
-            label = paste0("Year with lowest \nhome ownership (", lowest_year, ")"), 
-            color = "black",
-            label.size = NA) +
-    geom_label(x = highest_year + 5, y = 0.56, 
-            label = paste0("Year with highest \nhome ownership (", highest_year, ")"), 
-            color = "black",
-            label.size = NA) +
+  annotate(geom = "text",
+    x = lowest_year - 5, 
+    y = 0.56,
+    label = paste0("Year with lowest \nhome ownership (", lowest_year, ")"),
+    color = "black"
+    ) +
+  annotate(
+    geom = "text",
+    x = highest_year + 5, 
+    y = 0.56, 
+    label = paste0("Year with highest \nhome ownership (", highest_year, ")"), 
+    color = "black"
+    ) +
   geom_text_repel(data = last_year,
                   aes(label = race),
                   direction = "y",
@@ -67,9 +72,7 @@ home_owner %>%
                   nudge_y = 0.02,
                   size = 5,
                   segment.linetype = "dotted") +
-  # gganimate::transition_reveal(year) +
-  # scale_color_viridis_d() +
-  scale_color_manual(values=c("#859a6a", "#ad6e72", "#5d7a96")) +
+  scale_color_manual(values = c("#859a6a", "#ad6e72", "#5d7a96")) +
   scale_y_continuous(labels = scales::percent_format(scale = 100)) +
   labs(
     x = "Year",
