@@ -63,10 +63,6 @@ plots. Speculate about why the data looks the way it does.
 
 ### Introduction
 
-(1-2 paragraphs) Introduction to the question and what parts of the
-dataset are necessary to answer the question. Also discuss why you’re
-interested in this question.
-
 Most income inequality research focuses on the income disparity between
 different races, for example, how Asian Americans and White Americans
 typically have higher income as compared to African Americans and
@@ -82,15 +78,8 @@ in the “Approach” section.
 
 ### Approach
 
-(1-2 paragraphs) Describe what types of plots you are going to make to
-address your question. For each plot, provide a clear explanation as to
-why this plot (e.g. boxplot, barplot, histogram, etc.) is best for
-providing the information you are asking about. The two plots should be
-of different types, and at least one of the two plots needs to use
-either color mapping or facets.
-
 In order to investigate how average income distribution by race has
-changed over time we made a line plot faceted by race with year on the x
+changed over time we made a **line plot** faceted by race with year on the x
 axis and average income amount on the y axis. We decided to do so,
 because we cared less about looking into specific years and more about
 overall trends and comparisons within each race. To clean the data for
@@ -102,11 +91,12 @@ note is that data collection for asian observations only started around
 2000. It is hard to easily compare differences between races, so we
 decided to zoom into 2019 and make a bar chart.
 
-**Average income for each income quintile by race.** A ***bar graph***
+To visualize the proportion of income for each income quintile by race, 
+** a **bar graph**
 is deemed appropriate for this plot since we are trying to compare how
 much the top income quintile earns more than the bottom income quintile
-for each racial group and understand which race has the highest gap. A
-bar graph is ideal since we can group or stack them together and color
+for each racial group and understand which race has the highest gap (through a stacked filled bar chart).
+A bar graph is ideal since we can group or stack them together and color
 them based on the income quintile variable, making the visualization
 easier to be understood by readers.
 
