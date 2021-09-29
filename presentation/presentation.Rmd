@@ -121,7 +121,8 @@ home_owner %>%
     color = "Race",
     shape = "Race",
     title = "Home ownership over time",
-    subtitle = "by race"
+    subtitle = "by race",
+    caption = "7 Up: Blossom Mojekwu, Kartik Chamarti, Margaret Reed, Phillip Harmadi"
   ) +
   theme_minimal() +
   theme(legend.position = "none")
