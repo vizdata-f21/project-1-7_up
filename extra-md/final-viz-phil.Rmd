@@ -111,9 +111,11 @@ income_mean <- income_mean %>%
         income_quintile == "Middle"   ~ "41-60 %",
         income_quintile == "Second"   ~ "61-80 %",
         income_quintile == "Lowest"   ~ "Bottom 20%"),
-        income_percentile = ordered(income_percentile, 
+      income_percentile = ordered(income_percentile, 
                                   c("Bottom 20%", "61-80 %", "41-60 %", 
-                                    "21-40 %", "Top 20%")))
+                                    "21-40 %", "Top 20%")),
+      race = ordered(race, c("White", "Black", "Hispanic", "Asian")))
+  
 ```
 
 ```{r perc-plot}
@@ -129,6 +131,7 @@ highest_perc_table <- income_mean %>%
 #### Plot 2.a
 
 ```{r plot-overtime}
+
 income_mean %>%
   ggplot(
     aes(x = year, y = income_dollars, color = income_percentile)
@@ -143,14 +146,15 @@ income_mean %>%
                                 "firebrick2")) +
   labs(
     title = "Income Gap: How does income distribution compare for each race?",
-    subtitle = "By income quintile",
+    subtitle = "per income quintile in time series",
     x = "Year", 
     y = "Mean household income", 
     color = "Income quintile",
-    caption = "7 Up: Blossom Mojekwu, Kartik Chamarti, Margaret Reed, Phillip Harmadi"
+    caption = "Source: U.S. Census 2019 Data"
     ) +
   theme_minimal() +
-  theme(legend.position = "bottom")
+  theme(legend.position = "bottom") +
+  guides(color = guide_legend(reverse = TRUE))
 ```
 
 #### Plot 2.b
@@ -165,27 +169,30 @@ income_mean %>%
   geom_bar(
     position = "fill", 
     stat = "identity", 
-    aes(fill = reorder(income_percentile, desc(income_percentile)))
+    aes(fill = income_percentile),
+    width = 0.75
     ) +
   geom_text(
     data = highest_perc_table, 
-    aes(
-      y = race, label = paste0(round(percent, 2)*100, "%")),
-    x = 0.8, 
-    color = "white") +
+    aes(y = race, 
+        label = paste0(round(percent, 2)*100, "%")),
+        x = 0.15, size = 2.75,
+        color = "black") +
   scale_fill_brewer(type = "seq", palette = "Blues", direction = -1) +
   labs(
-    title = "Income Gap: How much do top households earn compared to bottom households \nfor each race?",
-    subtitle = "In 2019",
-    x = "Percent of total mean income", 
+    title = "Income Gap: How much do top households earn vs. bottom households per race?",
+    subtitle = "Source: U.S. Census 2019 Data",
+    x = "Proportion of income (%) earned for each household quintile", 
     y = "Race", 
     fill = "Income Quintile",
-    caption = "7 Up: Blossom Mojekwu, Kartik Chamarti, Margaret Reed, Phillip Harmadi"
+    caption = ""
     ) +
   scale_colour_viridis_d() +
   scale_x_continuous(labels = scales::percent_format(scale = 100)) +
   theme_minimal(base_size = 10) +
-  theme(text = element_text(size = 9))
+  theme(text = element_text(size = 9),
+        axis.title.x = element_text(vjust = -2)) +
+  guides(fill = guide_legend(reverse = TRUE))
 ```
 
 
