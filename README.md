@@ -1,4 +1,4 @@
-Wealth Inequality and Vibesssss
+Visualizing Income Inequality in the United States
 ================
 7-UP
 
