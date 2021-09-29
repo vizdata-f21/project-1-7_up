@@ -80,8 +80,21 @@ home_owner %>%
     FALSE
   )) %>%
   select(-year) %>%
-  group_by(race, flag) %>%
-  summarise(avg_h_o = median(home_owner_pct))
+  dplyr::group_by(race, flag) %>%
+  dplyr::summarise(avg_h_o = median(home_owner_pct)) %>%
+  ggplot(aes(x = flag, y = avg_h_o))+
+  geom_bar(stat = "identity")
+
+home_owner_data_facets <- home_owner %>%
+  filter(year > "1997") %>%
+  mutate(flag = if_else(
+    year >= 2008, 
+    TRUE,
+    FALSE
+  )) %>%
+  select(-year) %>%
+  dplyr::group_by(race, flag) %>%
+  dplyr::summarise(avg_h_o = median(home_owner_pct))
 
 #make a bar plot showing all of these different values
 #facet across the flag variable
