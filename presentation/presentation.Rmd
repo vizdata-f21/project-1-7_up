@@ -181,7 +181,7 @@ bottom_perc_table <- income_mean %>%
   filter(income_quintile == "Lowest")
 ```
 
-```{r plot-overtime, echo = FALSE, fig.width = 7, fig.length = 4.2, out.width = "60%"}
+```{r plot-overtime, echo = FALSE, fig.width = 7, fig.length = 4.2, out.width = "62.5%"}
 plot_2a <- income_mean %>%
   ggplot(
     aes(x = year, y = income_dollars, color = income_percentile)
@@ -215,7 +215,7 @@ plot_2a
 - How do household income disparities compare among different racial groups? 
 ---
 
-```{r plot-bar, echo = FALSE, fig.width = 8, fig.length = 6, out.width = "60%"}
+```{r plot-bar, echo = FALSE, fig.width = 8, fig.length = 6, out.width = "75%"}
 plot_2b <- income_mean %>%
   filter(year == 2019) %>%
   ggplot(
