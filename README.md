@@ -1,6 +1,6 @@
 Visualizing Income Inequality in the United States
 ================
-7-Up: Blossom Mojekwu, Kartik Chamarti, Margaret Reed, Phillip Harmadi
+7-UP
 
 ## Introduction
 
@@ -63,6 +63,10 @@ plots. Speculate about why the data looks the way it does.
 
 ### Introduction
 
+(1-2 paragraphs) Introduction to the question and what parts of the
+dataset are necessary to answer the question. Also discuss why you’re
+interested in this question.
+
 Most income inequality research focuses on the income disparity between
 different races, for example, how Asian Americans and White Americans
 typically have higher income as compared to African Americans and
@@ -78,8 +82,15 @@ in the “Approach” section.
 
 ### Approach
 
+(1-2 paragraphs) Describe what types of plots you are going to make to
+address your question. For each plot, provide a clear explanation as to
+why this plot (e.g. boxplot, barplot, histogram, etc.) is best for
+providing the information you are asking about. The two plots should be
+of different types, and at least one of the two plots needs to use
+either color mapping or facets.
+
 In order to investigate how average income distribution by race has
-changed over time we made a **line plot** faceted by race with year on the x
+changed over time we made a line plot faceted by race with year on the x
 axis and average income amount on the y axis. We decided to do so,
 because we cared less about looking into specific years and more about
 overall trends and comparisons within each race. To clean the data for
@@ -91,29 +102,36 @@ note is that data collection for asian observations only started around
 2000. It is hard to easily compare differences between races, so we
 decided to zoom into 2019 and make a bar chart.
 
-To visualize the proportion of income for each income quintile by race, 
-** a **bar graph**
+**Average income for each income quintile by race.** A ***bar graph***
 is deemed appropriate for this plot since we are trying to compare how
 much the top income quintile earns more than the bottom income quintile
-for each racial group and understand which race has the highest gap (through a stacked filled bar chart).
-A bar graph is ideal since we can group or stack them together and color
+for each racial group and understand which race has the highest gap. A
+bar graph is ideal since we can group or stack them together and color
 them based on the income quintile variable, making the visualization
 easier to be understood by readers.
 
 ### Analysis
 
-In this section, provide the code that generates your plots. Use scale functions to provide nice axis labels and guides. You are welcome to use theme
-functions to customize the appearance of your plot, but you are not required to do so. 
+(2-3 code blocks, 2 figures, text/code comments as needed) In this
+section, provide the code that generates your plots. Use scale functions
+to provide nice axis labels and guides. You are welcome to use theme
+functions to customize the appearance of your plot, but you are not
+required to do so. All plots must be made with ggplot2. Do not use base
+R or lattice plotting functions.
 
 #### Plot 2.a
 
-![](README_files/figure-gfm/plot_2a.png)<!-- -->
+![](README_files/figure-gfm/plot-overtime-1.png)<!-- -->
 
 #### Plot 2.b
 
-![](README_files/figure-gfm/plot_2b.png)<!-- -->
+![](README_files/figure-gfm/plot-bar-1.png)<!-- -->
 
 ### Discussion
+
+(1-3 paragraphs) In the Discussion section, interpret the results of
+your analysis. Identify any trends revealed (or not revealed) by the
+plots. Speculate about why the data looks the way it does.
 
 From the first plot, we found that those who are asian tended to have
 the highest average income, and their top 20% made far more than that of
@@ -123,23 +141,18 @@ earners. This increase in disparity seemed to be most noticeable for the
 white observations. We suspect that income is the highest among Asians
 due to their high educational attainment on average, and lowest in
 Blacks due to the systemic disadvantages they have experienced
-throughout U.S. history. 
-
-From the second plot, we can roughly surmise that income inequality 
-is the highest within Black households and lowest within
-Hispanic households. Our speculation is that income inequality 
-is highest among the Black category on average, because of lack of 
-high-paying jobs and opportunities for Black individuals living in the 
-rural Southern States vs.  those living in Northeastern or Midwestern 
-urban areas. For Asians, we speculate that income inequality is higher than
-Hispanics due to the different migration patterns and sources that Asian
-Americans' ancestors came from. For example, Indian and Chinese 
-Americans have a high proportion of professional college-educated citizens, 
-while a lot of Southeast Asian Americans are doing blue-collared jobs and 
-many came to the United States as refugees from less wealthy backgrounds.
-For Hispanics, we suspect that the reason income inequality within their
-community is the lowest is due to similar immigration pattern from 
-Central and Latin American countries.
+throughout U.S. history. From the second plot, we can roughly surmise
+that income inequality is the highest within Black households, followed
+by Asian, White, then Hispanic households. Our speculation is that
+income inequality is highest among the Black category on average,
+because of lack of high-paying jobs and opportunities for Black
+individuals living in the rural Southern States vs.  those living in
+Northeastern or Midwestern urban areas. For Asians, we speculate that
+income inequality comes from different migration patterns and sources.
+For example, Indian and Chinese Americans have a high proportion of
+professional college-educated citizens, while a lot of Southeast Asian
+Americans are doing blue-collared jobs and many came to the United
+States as refugees from less wealthy backgrounds.
 
 ## Presentation
 

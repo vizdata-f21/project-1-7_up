@@ -1,6 +1,6 @@
 ---
-title: Wealth Inequality and Vibesssss
-author: 7-UP
+title: Visualizing Income Inequality in the United States
+author: 7-Up: : Blossom Mojekwu, Kartik Chamarti, Margaret Reed, Phillip Harmadi
 output: github_document
 ---
 
@@ -187,36 +187,47 @@ All plots must be made with ggplot2. Do not use base R or lattice plotting funct
 
 ```{r data-wrangle-2, include = F}
 income_mean <- income_mean %>%
-  filter(!str_detect(race, "Combination"),
-         !str_detect(race, "Not Hispanic"),
-         !str_detect(race, "All"),
-         dollar_type == "2019 Dollars",
-         income_quintile != "Top 5%") %>%
+  filter(
+    !str_detect(race, "Combination"),
+    !str_detect(race, "Not Hispanic"),
+    !str_detect(race, "All"),
+    dollar_type == "2019 Dollars",
+    income_quintile != "Top 5%"
+    ) %>%
   group_by(year, race, income_quintile) %>%
-  summarize(income_dollars =  mean(income_dollars), 
-            .groups = "drop") %>%
-  mutate(race = str_remove(race, ',?\\s(.*)'),
-         income_quintile = ordered(income_quintile, c("Lowest", "Second", 
-                                                      "Middle", "Fourth", 
-                                                      "Highest")),
-      income_percentile = case_when(
-        income_quintile == "Top 5%"   ~ "1st - 5th",
-        income_quintile == "Highest"  ~ "Top 20%",
-        income_quintile == "Fourth"   ~ "21-40 %",
-        income_quintile == "Middle"   ~ "41-60 %",
-        income_quintile == "Second"   ~ "61-80 %",
-        income_quintile == "Lowest"   ~ "Bottom 20%"),
-        income_percentile = ordered(income_percentile, 
-                                  c("Bottom 20%", "61-80 %", "41-60 %", 
-                                    "21-40 %", "Top 20%")))
+  summarize(income_dollars =  mean(income_dollars), .groups = "drop") %>%
+  mutate(
+    race = str_remove(race, ',?\\s(.*)'),
+    income_percentile = case_when(
+      income_quintile == "Top 5%"   ~ "1st - 5th",
+      income_quintile == "Highest"  ~ "Top 20%",
+      income_quintile == "Fourth"   ~ "21-40 %",
+      income_quintile == "Middle"   ~ "41-60 %",
+      income_quintile == "Second"   ~ "61-80 %",
+      income_quintile == "Lowest"   ~ "Bottom 20%"),
+    income_percentile = ordered(income_percentile, 
+                                c("Bottom 20%", "61-80 %", "41-60 %", 
+                                    "21-40 %", "Top 20%")),
+    race = ordered(race, c("White", "Black", "Hispanic", "Asian")))
 ```
 
 ```{r perc-plot, include = F}
-highest_perc_table <- income_mean %>%
-  filter(year == 2019) %>%
-  group_by(race) %>%
-  transmute(income_quintile, percent = income_dollars/sum(income_dollars)) %>%
-  filter(income_quintile == "Highest")
+make_perc_table <- function(quintile) {
+  return(
+    income_mean %>%
+      filter(year == 2019) %>%
+      group_by(race) %>%
+      transmute(income_quintile, 
+                percent = income_dollars / sum(income_dollars)) %>%
+      filter(income_quintile == quintile)
+  )
+}
+
+highest_perc_table <- make_perc_table("Highest")
+perc_21_40_perc_table <- make_perc_table("Fourth")
+perc_41_60_perc_table <- make_perc_table("Middle")
+perc_61_80_perc_table <- make_perc_table("Second")
+bottom_perc_table <- make_perc_table("Lowest")
 ```
 
 
@@ -226,10 +237,14 @@ highest_perc_table <- income_mean %>%
 ```{r plot-overtime, echo = F}
 income_mean %>%
   ggplot(
-    aes(x = year, y = income_dollars, color = income_percentile)
+    aes(
+      x = year, 
+      y = income_dollars, 
+      color = income_percentile
+      )
   ) +
   geom_line() +
-  facet_wrap(.~race, nrow = 1) +
+  facet_wrap(. ~ race, nrow = 1) +
   scale_y_continuous(labels = scales::label_number(big.mark = ",", 
                                                    scale = 0.001, 
                                                    suffix = "k",
@@ -238,14 +253,18 @@ income_mean %>%
                                 "firebrick2")) +
   labs(
     title = "Income Gap: How does income distribution compare for each race?",
-    subtitle = "By income quintile",
+    subtitle = "per income quintile in time series",
     x = "Year", 
     y = "Mean household income", 
     color = "Income quintile",
-    caption = "7 Up: Blossom Mojekwu, Kartik Chamarti, Margaret Reed, Phillip Harmadi"
+    caption = "Source: U.S. Census 2019 Data"
     ) +
   theme_minimal() +
-  theme(legend.position = "bottom")
+  theme(
+    legend.position = "bottom",
+    axis.text.x.bottom = element_text(angle = 90)
+    ) +
+  guides(color = guide_legend(reverse = TRUE))
 ```
 
 #### Plot 2.b
@@ -254,33 +273,79 @@ income_mean %>%
 income_mean %>%
   filter(year == 2019) %>%
   ggplot(
-    aes(x = income_dollars,
-        y = reorder(race, desc(race)))
+    aes(x = income_dollars, y = reorder(race, desc(race)))
     ) + 
   geom_bar(
     position = "fill", 
     stat = "identity", 
-    aes(fill = reorder(income_percentile, desc(income_percentile)))
+    aes(fill = income_percentile),
+    width = 0.7
     ) +
   geom_text(
     data = highest_perc_table, 
-    aes(
-      y = race, label = paste0(round(percent, 2)*100, "%")),
-    x = 0.8, 
-    color = "white") +
+    aes(y = race, label = paste0(round(percent, 3) * 100)),
+    x = 0.45, 
+    size = 2.5,
+    color = "black",
+    nudge_y = -0.45
+    ) +
+  geom_text(
+    data = perc_21_40_perc_table, 
+    aes(y = race, label = paste0(round(percent, 3) * 100)),
+    x = 0.65, 
+    size = 2.5,
+    color = "black",
+    nudge_y = -0.45
+    ) +
+  geom_text(
+    data = perc_41_60_perc_table, 
+    aes(y = race, label = paste0(round(percent, 3) * 100)),
+    x = 0.80, 
+    size = 2.5,
+    color = "black",
+    nudge_y = -0.45
+    ) +
+  geom_text(
+    data = perc_61_80_perc_table, 
+    aes(y = race, label = paste0(round(percent, 3) * 100)),
+    x = 0.92, 
+    size = 2.5,
+    color = "black",
+    nudge_y = -0.45
+    ) +
+  geom_text(
+    data = bottom_perc_table, 
+    aes(y = race, label = paste0(round(percent, 3) * 100)),
+    x = 0.975, 
+    size = 2.5,
+    color = "black",
+    nudge_y = -0.45
+    ) +
   scale_fill_brewer(type = "seq", palette = "Blues", direction = -1) +
   labs(
-    title = "Income Gap: How much do top households earn compared to bottom households \nfor each race?",
-    subtitle = "In 2019",
-    x = "Percent of total mean income", 
+    title = "Income Gap: How much do top quintile households earn compared to other quintiles?",
+    subtitle = "Proportion of income earned for each household quintile per race in 2019",
+    x = "Percentage %", 
     y = "Race", 
     fill = "Income Quintile",
-    caption = "7 Up: Blossom Mojekwu, Kartik Chamarti, Margaret Reed, Phillip Harmadi"
+    caption = "Source: U.S. Census 2019 Data"
     ) +
   scale_colour_viridis_d() +
-  scale_x_continuous(labels = scales::percent_format(scale = 100)) +
+  scale_x_continuous(
+    labels = scales::label_number(
+      big.mark = ",", 
+      scale = 100, 
+      suffix = "", 
+      prefix = ""
+      ),
+    breaks = seq(-0.2, 1.2, 0.2)
+    ) +
+  guides(fill = guide_legend(reverse = TRUE)) +
   theme_minimal(base_size = 10) +
-  theme(text = element_text(size = 9))
+  theme(
+    text = element_text(size = 9),
+    axis.title.x = element_text(vjust = -2),
+    plot.caption = element_text(vjust = -3, hjust = 0))
 ```
 
 
