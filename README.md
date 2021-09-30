@@ -1,6 +1,6 @@
 Visualizing Income Inequality in the United States
 ================
-7-UP
+7-Up- Blossom Mojekwu, Kartik Chamarti, Margaret Reed, Phillip Harmadi
 
 ## Introduction
 
