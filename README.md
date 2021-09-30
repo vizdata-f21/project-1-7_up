@@ -1,6 +1,6 @@
 Visualizing Income Inequality in the United States
 ================
-7-UP
+7-Up: Blossom Mojekwu, Kartik Chamarti, Margaret Reed, Phillip Harmadi
 
 ## Introduction
 
@@ -107,11 +107,11 @@ functions to customize the appearance of your plot, but you are not required to 
 
 #### Plot 2.a
 
-![](README_files/figure-gfm/plot-overtime-1.png)<!-- -->
+![](README_files/figure-gfm/plot_2a.png)<!-- -->
 
 #### Plot 2.b
 
-![](README_files/figure-gfm/plot-bar-1.png)<!-- -->
+![](README_files/figure-gfm/plot_2b.png)<!-- -->
 
 ### Discussion
 
@@ -126,16 +126,20 @@ Blacks due to the systemic disadvantages they have experienced
 throughout U.S. history. 
 
 From the second plot, we can roughly surmise that income inequality 
-is the highest within Black households, followed by Asian, White, 
-then Hispanic households. Our speculation is that income inequality 
+is the highest within Black households and lowest within
+Hispanic households. Our speculation is that income inequality 
 is highest among the Black category on average, because of lack of 
 high-paying jobs and opportunities for Black individuals living in the 
 rural Southern States vs.  those living in Northeastern or Midwestern 
-urban areas. For Asians, we speculate that income inequality comes from 
-different migration patterns and sources. For example, Indian and Chinese 
+urban areas. For Asians, we speculate that income inequality is higher than
+Hispanics due to the different migration patterns and sources that Asian
+Americans' ancestors came from. For example, Indian and Chinese 
 Americans have a high proportion of professional college-educated citizens, 
 while a lot of Southeast Asian Americans are doing blue-collared jobs and 
 many came to the United States as refugees from less wealthy backgrounds.
+For Hispanics, we suspect that the reason income inequality within their
+community is the lowest is due to similar immigration pattern from 
+Central and Latin American countries.
 
 ## Presentation
 
