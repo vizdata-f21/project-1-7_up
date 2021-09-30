@@ -124,6 +124,26 @@ highest_perc_table <- income_mean %>%
   group_by(race) %>%
   transmute(income_quintile, percent = income_dollars/sum(income_dollars)) %>%
   filter(income_quintile == "Highest")
+perc_21_40_perc_table <- income_mean %>%
+  filter(year == 2019) %>%
+  group_by(race) %>%
+  transmute(income_quintile, percent = income_dollars/sum(income_dollars)) %>%
+  filter(income_quintile == "Fourth")
+perc_41_60_perc_table <- income_mean %>%
+  filter(year == 2019) %>%
+  group_by(race) %>%
+  transmute(income_quintile, percent = income_dollars/sum(income_dollars)) %>%
+  filter(income_quintile == "Middle")
+perc_61_80_perc_table <- income_mean %>%
+  filter(year == 2019) %>%
+  group_by(race) %>%
+  transmute(income_quintile, percent = income_dollars/sum(income_dollars)) %>%
+  filter(income_quintile == "Second")
+bottom_perc_table <- income_mean %>%
+  filter(year == 2019) %>%
+  group_by(race) %>%
+  transmute(income_quintile, percent = income_dollars/sum(income_dollars)) %>%
+  filter(income_quintile == "Lowest")
 ```
 
 
@@ -160,6 +180,7 @@ income_mean %>%
 #### Plot 2.b
 
 ```{r plot-bar}
+
 income_mean %>%
   filter(year == 2019) %>%
   ggplot(
@@ -170,28 +191,63 @@ income_mean %>%
     position = "fill", 
     stat = "identity", 
     aes(fill = income_percentile),
-    width = 0.75
+    width = 0.7
     ) +
   geom_text(
     data = highest_perc_table, 
     aes(y = race, 
-        label = paste0(round(percent, 2)*100, "%")),
-        x = 0.15, size = 2.75,
-        color = "black") +
+        label = paste0(round(percent, 3)*100)),
+        x = 0.45, size = 2.25,
+        color = "black",
+        nudge_x = 0, nudge_y = -0.45) +
+  geom_text(
+    data = perc_21_40_perc_table, 
+    aes(y = race, 
+        label = paste0(round(percent, 3)*100)),
+        x = 0.65, size = 2.25,
+        color = "black",
+        nudge_x = 0, nudge_y = -0.45) +
+  geom_text(
+    data = perc_41_60_perc_table, 
+    aes(y = race, 
+        label = paste0(round(percent, 3)*100)),
+        x = 0.80, size = 2.25,
+        color = "black",
+        nudge_x = 0, nudge_y = -0.45) +
+  geom_text(
+    data = perc_61_80_perc_table, 
+    aes(y = race, 
+        label = paste0(round(percent, 3)*100)),
+        x = 0.92, size = 2.25,
+        color = "black",
+        nudge_x = 0, nudge_y = -0.45) +
+  geom_text(
+    data = bottom_perc_table, 
+    aes(y = race, 
+        label = paste0(round(percent, 3)*100)),
+        x = 0.975, size = 2.25,
+        color = "black",
+        nudge_x = 0, nudge_y = -0.45) +
   scale_fill_brewer(type = "seq", palette = "Blues", direction = -1) +
   labs(
-    title = "Income Gap: How much do top households earn vs. bottom households per race?",
-    subtitle = "Source: U.S. Census 2019 Data",
-    x = "Proportion of income (%) earned for each household quintile", 
+    title = "Income Gap: How much do top quintile households earn compared to other quintiles?",
+    subtitle = "Proportion of income earned for each household quintile per race",
+    x = "Percentage %", 
     y = "Race", 
     fill = "Income Quintile",
-    caption = ""
+    caption = "Source: U.S. Census 2019 Data"
     ) +
   scale_colour_viridis_d() +
-  scale_x_continuous(labels = scales::percent_format(scale = 100)) +
+  scale_x_continuous(labels = scales::label_number(big.mark = ",", 
+                                                   scale = 100, 
+                                                   suffix = "",
+                                                   prefix = ""),
+                     breaks = seq(-0.2, 1.2, 0.2)) +
+  # scale_x_continuous(labels = scales::percent_format(scale = 100)) +
   theme_minimal(base_size = 10) +
   theme(text = element_text(size = 9),
-        axis.title.x = element_text(vjust = -2)) +
+        axis.title.x = element_text(vjust = -2),
+        plot.caption = element_text(vjust = -3)) +
   guides(fill = guide_legend(reverse = TRUE))
 ```
 
