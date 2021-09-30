@@ -1,6 +1,6 @@
 Visualizing Income Inequality in the United States
 ================
-7-UP
+7-Up: Blossom Mojekwu, Kartik Chamarti, Margaret Reed, Phillip Harmadi
 
 ## Introduction
 
@@ -107,11 +107,11 @@ functions to customize the appearance of your plot, but you are not required to 
 
 #### Plot 2.a
 
-![](README_files/figure-gfm/plot-overtime-1.png)<!-- -->
+![](README_files/figure-gfm/plot_2a.png)<!-- -->
 
 #### Plot 2.b
 
-![](README_files/figure-gfm/plot-bar-1.png)<!-- -->
+![](README_files/figure-gfm/plot_2b.png)<!-- -->
 
 ### Discussion
 
