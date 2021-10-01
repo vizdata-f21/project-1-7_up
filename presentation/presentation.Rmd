@@ -51,10 +51,9 @@ style_xaringan(
 
 Class: middle, inverse, center
 
-
 ### Introduction & Data
 
-Goal: Explore homeownership and wealth inequality in America
+Goal: Explore homeownership rate, wealth, and income inequality in the United States
 
 - **home_owner** dataset
 
@@ -96,7 +95,6 @@ last_year <- home_owner %>%
   group_by(race) %>%
   filter(year == max(year))
 ```
-
 
 ```{r first-look, echo = FALSE, out.width = "60%"}
 home_owner %>%
@@ -191,11 +189,9 @@ race_wealth %>%
   theme(legend.position = "none")
 ```
 
-
-
 ---
 
-# Housing Market Crash
+#### Housing Market Crash
 
 ```{r static-plot-beforeafter-2008, echo = F}
 home_owner %>%
@@ -220,6 +216,7 @@ home_owner %>%
 ```
 
 ---
+
 ```{r animated-plot-pre-post-crash, out.width = '75%', cache = TRUE, echo = F}
 knitr::include_graphics("animated-plot-pre-post-crash-1.gif")
 ```
