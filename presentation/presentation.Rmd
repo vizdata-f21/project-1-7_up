@@ -192,7 +192,7 @@ race_wealth %>%
 
 
 ---
-
+.pull-left[
 ```{r static-plot-beforeafter-2008, echo = F}
 home_owner %>%
   filter(year > "2003", year <= "2010") %>%
@@ -215,12 +215,14 @@ home_owner %>%
   theme_minimal()
 ```
 
+]
 
+.pull-right[
 
 ```{r animated-plot-pre-post-crash, out.width = '40%', cache = TRUE, echo = F}
 knitr::include_graphics("animated-plot-pre-post-crash-1.gif")
 ```
-
+]
 
 ---
 
