@@ -199,7 +199,7 @@ plot_2a <- income_mean %>%
     subtitle = "per income quintile in time series",
     x = "Year", 
     y = "Mean household income", 
-    color = "Income quintile",
+    color = "Income Quintile",
     caption = "Source: U.S. Census 2019 Data"
     ) +
   theme_minimal() +
