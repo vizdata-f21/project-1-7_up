@@ -1,5 +1,5 @@
 ---
-title: "Homeownership rate and household income in the United States by race"
+title: "Homeownership, Wealth, and Income in the United States by Race"
 subtitle: ""
 author: "7 Up <br> Blossom, Kartik, Margaret, Phillip"
 institute: "Duke University"
@@ -57,7 +57,11 @@ Class: middle, inverse, center
 
 ---
 
-### 1. Homeownership Rate
+### 1. Homeownership Rate and Wealth
+
+- How has home-ownership changed over time?
+
+- How does this trend vary between races?
 
 ```{r find-peaks, include = FALSE}
 lowest_year <- home_owner %>%
@@ -124,10 +128,11 @@ home_owner %>%
   theme(legend.position = "none")
 ```
 
-- How has home-ownership changed over time?
-
-- How does this trend vary between races?
 ---
+
+- How has wealth changed over time?
+
+- How does the growth trend vary between races?
 
 ```{r race-wealth, echo = F}
 first_year <- race_wealth %>%
@@ -173,6 +178,10 @@ race_wealth %>%
 ---
 
 ### 2. Household Income 
+
+- How does household income level look like for each racial group over time?
+
+- How do household income disparities compare among different racial groups? 
 
 ```{r data-wrangle-2, include = FALSE}
 income_mean <- income_mean %>%
@@ -253,11 +262,11 @@ income_mean %>%
   guides(color = guide_legend(reverse = TRUE))
 ```
 
-- How does household income level look like for each racial group over time?
-
-- How do household income disparities compare among different racial groups? 
-
 ---
+
+- Which race seems to have the most income inequality within each of their own community?
+
+- How much do the top quintile households earn as compared to the bottom quintile for each race?
 
 ```{r plot-bar, echo = FALSE, fig.width = 8, fig.length = 6, out.width = "75%"}
 income_mean %>%
@@ -338,12 +347,10 @@ income_mean %>%
     plot.caption = element_text(vjust = -3, hjust = 0))
 ```
 
-- Which race seems to have the most income inequality within each of their own community?
-
-- How much do the top quintile households earn as compared to the bottom quintile for each race?
-
 ---
 
-# Thank You!
+# Thank You
+
+### Feel free to ask any questions to our team!
 
 
