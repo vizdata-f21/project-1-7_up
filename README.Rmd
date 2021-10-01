@@ -55,12 +55,6 @@ For this, we used the`home_owner` dataset and use the `year`, `race`, and
 
 ### Approach
 
-As previously mentioned, apart from just a line plot, the grouped barplot does
-an efficient job in comparing 3 different variables where one is categorical.
-When making an animated plot, the benefit of a grouped barplot is that it makes 
-it very easy to see the exact percentages over time, which is ideal to see the 
-exact changes in homeownership percentages across the years and racial groups. 
-
 When it comes to plotting information from 3 different variables, that includes
 a categorical variable, some of the most efficient plots would be a line plot 
 and barplot. Line plots are best for displaying the change of a value, such as
@@ -72,7 +66,11 @@ As previously mentioned, apart from just a line plot, the grouped barplot does
 an efficient job in comparing 3 different variables where one is categorical.
 When making an animated plot, the benefit of a grouped barplot is that it makes
 it very easy to see the exact percentages over time, which is ideal to see the
-exact changes in homeownership percentages across the years and racial groups. 
+exact changes in homeownership percentages across the years and racial groups.
+To make the bar plot easier to read, we added grey, vertical dotted lines with 
+2007 serving as the baseline for comparison. This makes it easier to determine
+whether or not the homeownership percentage value has decreased or increased
+relative to 2007 
 
 ### Analysis
 
@@ -203,7 +201,7 @@ race_wealth %>%
 ```
 
 
-#### Plot 1.b.2
+#### Plot 1.d
 
 ```{r  animated-plot-pre-post-crash, cache = TRUE}
 home_owner %>%

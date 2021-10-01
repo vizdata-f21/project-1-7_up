@@ -51,15 +51,11 @@ style_xaringan(
 
 Class: middle, inverse, center
 
-### Introduction
+
+### Introduction & Data
 
 Goal: Explore homeownership and wealth inequality in America
 
-Data provided from Urban Institute and US Census through #tidytuesday
-
----
-
-### Data
 
 ```{r housing-data, echo = F}
 kable(home_owner %>% slice(1:5))
@@ -70,7 +66,7 @@ kable(home_owner %>% slice(1:5))
 kable(income_mean %>% slice(1:5))
 ```
 
-
+Data provided from Urban Institute and US Census through #tidytuesday
 
 ---
 
@@ -98,6 +94,7 @@ last_year <- home_owner %>%
   group_by(race) %>%
   filter(year == max(year))
 ```
+
 
 ```{r first-look, echo = FALSE, out.width = "60%"}
 home_owner %>%
@@ -196,7 +193,6 @@ race_wealth %>%
 
 ---
 
-.pull-left[
 ```{r static-plot-beforeafter-2008, echo = F}
 home_owner %>%
   filter(year > "2003", year <= "2010") %>%
@@ -218,13 +214,13 @@ home_owner %>%
     ) +
   theme_minimal()
 ```
-]
 
-.pull-right[
+
+
 ```{r animated-plot-pre-post-crash, cache = TRUE, echo = F}
 knitr::include_graphics("animated-plot-pre-post-crash-1.gif")
 ```
-]
+
 
 ---
 
