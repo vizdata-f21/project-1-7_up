@@ -56,17 +56,19 @@ Class: middle, inverse, center
 
 Goal: Explore homeownership and wealth inequality in America
 
+- **home_owner** dataset
 
-```{r housing-data, echo = F}
-kable(home_owner %>% slice(1:5))
+```{r housing-data, echo = F, out.width = "62.5%"}
+kable(home_owner %>% slice(1:3))
 ```
 
+- **income_mean** dataset
 
-```{r income-data, echo = F}
-kable(income_mean %>% slice(1:5))
+```{r income-data, echo = F, out.width = "62.5%"}
+kable(income_mean %>% slice(1:3))
 ```
 
-Data provided from Urban Institute and US Census through #tidytuesday
+Data provided from Urban Institute and US Census through ***#tidytuesday***.
 
 ---
 
@@ -195,7 +197,6 @@ race_wealth %>%
 
 # Housing Market Crash
 
-.pull-left[
 ```{r static-plot-beforeafter-2008, echo = F}
 home_owner %>%
   filter(year > "2003", year <= "2010") %>%
@@ -218,14 +219,10 @@ home_owner %>%
   theme_minimal()
 ```
 
-]
-
-.pull-right[
-```{r animated-plot-pre-post-crash, out.width = '40%', cache = TRUE, echo = F}
+---
+```{r animated-plot-pre-post-crash, out.width = '75%', cache = TRUE, echo = F}
 knitr::include_graphics("animated-plot-pre-post-crash-1.gif")
 ```
-]
-
 
 ---
 
