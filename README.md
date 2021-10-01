@@ -53,6 +53,10 @@ R or lattice plotting functions.
 
 ![](README_files/figure-gfm/first-look-1.png)<!-- -->
 
+#### Plot 1.b
+
+![](README_files/figure-gfm/race-wealth-1.png)<!-- -->
+
 ### Discussion
 
 (1-3 paragraphs) In the Discussion section, interpret the results of
