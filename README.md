@@ -21,7 +21,7 @@ information for each race while the `income_mean` dataset will help us
 to visualize the income earned for each income quintile for each race
 during a particular time period.
 
-## 1\. How has home-ownership changed over time, and how does this trend vary between different races?
+## 1\. How has home-ownership rate and wealth changed over time and vary between races?
 
 ### Introduction
 
@@ -65,7 +65,7 @@ R or lattice plotting functions.
 your analysis. Identify any trends revealed (or not revealed) by the
 plots. Speculate about why the data looks the way it does.
 
-## 2\. What does household income level look like for each racial group over time, and how do household income disparities compare among different racial groups?
+## 2\. How do household income levels compare between races and within each race?
 
 ### Introduction
 
