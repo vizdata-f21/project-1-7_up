@@ -12,7 +12,8 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(viridis)
 library(reprex)
-#library(gganimate)
+library(gganimate)
+library(ggpubr)
 ```
 
 ```{r load-data, message = F}
@@ -72,37 +73,50 @@ home_owner %>%
 
 
 ```{r second-look- data}
-home_owner %>%
+c <- home_owner %>%
   filter(year > "1997") %>%
   mutate(flag = if_else(
     year >= 2008,
     TRUE,
     FALSE
   )) %>%
-  select(-year) %>%
-  dplyr::group_by(race, flag) %>%
-  dplyr::summarise(avg_h_o = median(home_owner_pct)) %>%
-  ggplot(aes(x = flag, y = avg_h_o))+
-  geom_bar(stat = "identity")
+  dplyr::group_by(year, race, flag) %>%
+  dplyr::summarise(avg_h_o = mean(home_owner_pct)) %>%
+  ggplot(aes(x = flag, y = avg_h_o, fill = race))+ 
+    geom_bar(position="dodge", stat="identity") +
+  coord_flip() +
+  transition_time(year)+
+  labs(title = "Year: {frame_time}")
 
-home_owner_data_facets <- home_owner %>%
-  filter(year > "1997") %>%
-  mutate(flag = if_else(
-    year >= 2008, 
-    TRUE,
-    FALSE
-  )) %>%
-  select(-year) %>%
-  dplyr::group_by(race, flag) %>%
-  dplyr::summarise(avg_h_o = median(home_owner_pct))
+a <- home_owner %>%
+  filter(year > "1997", year <= "2008") %>%
+  dplyr::group_by(year, race) %>%
+  dplyr::summarise(avg_h_o = mean(home_owner_pct)) %>%
+  ggplot(aes(x = race, y = avg_h_o, fill = race))+ 
+    geom_bar(position="dodge", stat="identity") +
+  coord_flip() +
+  transition_time(year)+
+  labs(title = "Year: {frame_time}")+
+  animate(end_pause)
 
-#make a bar plot showing all of these different values
-#facet across the flag variable
-#Rename the variable for pre and post crisis
-#make it look fancy
-#make a mockup of animated version across the different years
-#ask which is better
-#finish write up for it
+b <- home_owner %>%
+  filter(year >= "2008") %>%
+  dplyr::group_by(year, race) %>%
+  dplyr::summarise(avg_h_o = mean(home_owner_pct)) %>%
+  ggplot(aes(x = race, y = avg_h_o, fill = race))+ 
+    geom_bar(position="dodge", stat="identity") +
+  coord_flip()
+
+figure <- ggarrange(a, b,
+                    labels = c("Pre 2008 Housing Crisis", 
+                               "Post 2008 Housing Crisis"),
+                    ncol = 1, nrow = 2)
+
+#make the final frame stay still
+  #for post 2008, add 0 data so that it can still run and merge.
+#combine the other plot and add the vline or hline
+#write the write up
+#add to the ppt
 ```
 
 ```{r explore-homeowner-with-wealth}
