@@ -37,14 +37,21 @@ each race during a particular time period.
 (1-2 paragraphs)
 Introduction to the question and what parts of the dataset are necessary to answer the question. Also discuss why you’re interested in this question.
 
-We first wanted to investigate how home ownership has changed over time, and 
-among different racial groups. We decided to use the `home_owner` dataset and 
-use the `year`, `race`, and `home_owner_pct` variables. We also wanted to 
-explore the housing bubble in 2006-2008 further as it was a major event that 
-affected homeownership for many years to come. We wanted to explore changes in
-homeownership percentage a few years before and after the crash and see which
-races have been particularly affected by it more. For this, we used the 
-`home_owner` dataset and use the `year`, `race`, and `home_owner_pct` variables.
+We want to investigate how homeownership rates have changed over time, and how 
+homeownership trends vary by race. We are interested in understanding 
+homeownership trends across racial groups because homeownership is one of the 
+biggest contributors to racial wealth inequality. We decided to use the 
+`home_owner` dataset and use the `year`, `race`, and `home_owner_pct` variables
+because they will allow us to plot homeownership percentages by race over time.
+
+When it comes to home ownership in the US, a major event that has shaped our
+parents’ lives and even ours to a certain extent was the great recession around
+2009 and the housing bubble caused by faulty mortgages. For this context, we 
+wanted to explore changes in homeownership percentage a few years before and 
+after the crash and see which races have been particularly affected by it more.
+For this, we used the`home_owner` dataset and use the `year`, `race`, and 
+`home_owner_pct` variables.
+
 
 ### Approach
 
@@ -55,6 +62,18 @@ When making an animated plot, the benefit of a grouped barplot is that it makes
 it very easy to see the exact percentages over time, which is ideal to see the 
 exact changes in homeownership percentages across the years and racial groups. 
 
+When it comes to plotting information from 3 different variables, that includes
+a categorical variable, some of the most efficient plots would be a line plot 
+and barplot. Line plots are best for displaying the change of a value, such as
+homeownership percentage, over the course of time. Thus, we used a line plot to
+plot the change of homeownership percentages by different racial groups 
+(White, Hispanic, Black) from 1976-2016.
+
+As previously mentioned, apart from just a line plot, the grouped barplot does
+an efficient job in comparing 3 different variables where one is categorical.
+When making an animated plot, the benefit of a grouped barplot is that it makes
+it very easy to see the exact percentages over time, which is ideal to see the
+exact changes in homeownership percentages across the years and racial groups. 
 
 ### Analysis
 
@@ -71,6 +90,7 @@ lowest_year <- home_owner %>%
   arrange(mean_pct_unweighted) %>%
   slice(1) %>%
   pull(year)
+
 highest_year <- home_owner %>%
   group_by(year) %>%
   summarize(mean_pct_unweighted = mean(home_owner_pct)) %>%
@@ -183,7 +203,8 @@ race_wealth %>%
   geom_hline(aes(yintercept = 0.7207117), linetype = "dashed", alpha = 0.3)+
   geom_hline(aes(yintercept = 0.4816776), linetype = "dashed", alpha = 0.3)+
   geom_hline(aes(yintercept = 0.4930240), linetype = "dashed", alpha = 0.3) +
-  scale_fill_viridis_d()+
+  scale_fill_viridis_d(alpha = 0.7)+
+  theme_bw() +
   scale_y_continuous(labels = scales::percent_format(scale = 100))
 
 ```
@@ -218,17 +239,33 @@ subtitle = "Homeownership 5-6 years before and after '06/'07 Housing Bubble by r
 
 (1-3 paragraphs)
 
+The line plot shows that there is a consistent racial disparity in homeownership
+percentages between Whites and Hispanics and Whites and Blacks. Upwards of 65%
+of White Americans have consistently owned homes from 1976-2016. Meanwhile, for
+the same years, lower than 50% of Hispanics and Blacks have owned homes. After
+2005, a greater percentage of Hispanics own homes compared to Blacks. There are
+many possible reasons for the racial disparity in homeownership rates such as 
+the fact that White families tend to have greater wealth than Hispanic and Black
+families and that White individuals are more likely to receive inheritances than
+other minority groups which can be used for home down payments (Bhutta et al.).
 
-Around 2007, the homeownership percentages started to decrease across all 
-racial groups(Black, Hispanic, White), which makes sense as it was the start
-of when there were a lot of home foreclosures. Treating 2007 as the baseline, 
-it is apparent that hispanic and black communities were significantly more 
-affected by the foreclosures than white communities. This is apparent from 
-the bar chart as there is a larger decrease in homeownership percentages for
-the two racial groups compared to the white demographic. Through the animated
-grouped bar chart, it can be noticed that for the most part that homeownership 
-percentages have not gone back to the levels at which it was before the housing 
-bubble, based on the most recent data collected at 2016.
+
+Around 2007, the homeownership percentages started to decrease across all racial
+groups(Black, Hispanic, White), which makes sense as it was the start of when
+there were a lot of foreclosures. Treating 2007 as the baseline, it is apparent
+that hispanic and black communities were significantly more affected by the 
+foreclosures than white communities. This is apparent from the bar chart as 
+there is a larger decrease in homeownership percentages for the two racial 
+groups compared to the white demographic. Through the animated grouped bar 
+chart, it can be noticed that for the most part that homeownership percentages
+have not gone back to the levels at which it was before the housing bubble, 
+based on the most recent data collected at 2016.
+
+Citation: Bhutta, Neil, Andrew C. Chang, Lisa J. Dettling, and Joanne W. Hsu
+(2020). "Disparities in Wealth by Race and Ethnicity in the 2019 Survey of 
+Consumer Finances," FEDS Notes. Washington: Board of Governors of the Federal 
+Reserve System, September 28, 2020, https://doi.org/10.17016/2380-7172.2797.
+
 ## 2. How do household income levels compare between races and within each race?
 
 ### Introduction
