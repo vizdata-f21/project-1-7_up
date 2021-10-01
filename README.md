@@ -1,6 +1,6 @@
-Wealth Inequality and Vibesssss
+Visualizing Income Inequality in the United States
 ================
-7-UP
+7-Up- Blossom Mojekwu, Kartik Chamarti, Margaret Reed, Phillip Harmadi
 
 ## Introduction
 
@@ -53,6 +53,10 @@ R or lattice plotting functions.
 #### Plot 1.a
 
 ![](README_files/figure-gfm/first-look-1.png)<!-- -->
+
+#### Plot 1.b
+
+![](README_files/figure-gfm/race-wealth-1.png)<!-- -->
 
 ### Discussion
 

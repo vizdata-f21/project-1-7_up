@@ -37,6 +37,7 @@ knitr::opts_chunk$set(
 ```{r load-data, include = FALSE}
 income_mean <- read_csv(file = "../data/income_mean.csv")
 home_owner <- read_csv(file = "../data/home_owner.csv")
+race_wealth <- read_csv(file = "../data/race_wealth.csv")
 ```
 
 ```{r style-slides, echo = FALSE}
@@ -48,6 +49,9 @@ style_xaringan(
 Class: middle, inverse, center
 
 ### Introduction
+
+
+---
 
 ### Data
 
@@ -124,6 +128,50 @@ home_owner %>%
 
 - How does this trend vary between races?
 ---
+
+```{r race-wealth, echo = F}
+first_year <- race_wealth %>%
+  filter(type == "Average",
+         race != "Non-White",
+         year > 1980) %>%
+  group_by(race) %>%
+  filter(year == min(year))
+
+race_wealth %>%
+  filter(type == "Average",
+         race != "Non-White",
+         year > 1980) %>%
+  drop_na() %>%
+  group_by(race, year) %>%
+  ggplot(aes(x = year, y = wealth_family, color = race, shape = race)) +
+  geom_point(alpha = 0.5, size = 1.5) +
+  geom_line(size = 1) +
+  geom_text_repel(data = first_year,
+                  aes(label = race),
+                  direction = "y",
+                  nudge_y = 1000,
+                  size = 3,
+                  segment.linetype = "dotted") +
+  geom_vline(aes(xintercept = lowest_year), color = "grey") +
+  geom_vline(aes(xintercept = highest_year), color = "grey") +
+  scale_color_manual(values = c("#859a6a", "#ad6e72", "#5d7a96")) +
+  scale_y_continuous(labels = scales::label_number(big.mark = ",", 
+                                                   scale = 0.001, 
+                                                   suffix = "k",
+                                                   prefix = "$")) +
+  labs(
+    x = "Year",
+    y = "Average wealth per family",
+    title = "Average wealth over time",
+    subtitle = "by race",
+    caption = "Source: U.S. Census 2019 Data"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
+---
+
 ### 2. Household Income 
 
 ```{r data-wrangle-2, include = FALSE}
@@ -154,40 +202,35 @@ income_mean <- income_mean %>%
 ```
 
 ```{r perc-plot, include = FALSE}
-highest_perc_table <- income_mean %>%
-  filter(year == 2019) %>%
-  group_by(race) %>%
-  transmute(income_quintile, percent = income_dollars/sum(income_dollars)) %>%
-  filter(income_quintile == "Highest")
-perc_21_40_perc_table <- income_mean %>%
-  filter(year == 2019) %>%
-  group_by(race) %>%
-  transmute(income_quintile, percent = income_dollars/sum(income_dollars)) %>%
-  filter(income_quintile == "Fourth")
-perc_41_60_perc_table <- income_mean %>%
-  filter(year == 2019) %>%
-  group_by(race) %>%
-  transmute(income_quintile, percent = income_dollars/sum(income_dollars)) %>%
-  filter(income_quintile == "Middle")
-perc_61_80_perc_table <- income_mean %>%
-  filter(year == 2019) %>%
-  group_by(race) %>%
-  transmute(income_quintile, percent = income_dollars/sum(income_dollars)) %>%
-  filter(income_quintile == "Second")
-bottom_perc_table <- income_mean %>%
-  filter(year == 2019) %>%
-  group_by(race) %>%
-  transmute(income_quintile, percent = income_dollars/sum(income_dollars)) %>%
-  filter(income_quintile == "Lowest")
+make_perc_table <- function(quintile) {
+  return(
+    income_mean %>%
+      filter(year == 2019) %>%
+      group_by(race) %>%
+      transmute(income_quintile, 
+                percent = income_dollars / sum(income_dollars)) %>%
+      filter(income_quintile == quintile)
+  )
+}
+
+highest_perc_table <- make_perc_table("Highest")
+perc_21_40_perc_table <- make_perc_table("Fourth")
+perc_41_60_perc_table <- make_perc_table("Middle")
+perc_61_80_perc_table <- make_perc_table("Second")
+bottom_perc_table <- make_perc_table("Lowest")
 ```
 
 ```{r plot-overtime, echo = FALSE, fig.width = 7, fig.length = 4.2, out.width = "62.5%"}
-plot_2a <- income_mean %>%
+income_mean %>%
   ggplot(
-    aes(x = year, y = income_dollars, color = income_percentile)
+    aes(
+      x = year, 
+      y = income_dollars, 
+      color = income_percentile
+      )
   ) +
   geom_line() +
-  facet_wrap(.~race, nrow = 1) +
+  facet_wrap(. ~ race, nrow = 1) +
   scale_y_continuous(labels = scales::label_number(big.mark = ",", 
                                                    scale = 0.001, 
                                                    suffix = "k",
@@ -203,24 +246,24 @@ plot_2a <- income_mean %>%
     caption = "Source: U.S. Census 2019 Data"
     ) +
   theme_minimal() +
-  theme(legend.position = "bottom",
-        axis.text.x.bottom = element_text(angle = 90)) +
+  theme(
+    legend.position = "bottom",
+    axis.text.x.bottom = element_text(angle = 90)
+    ) +
   guides(color = guide_legend(reverse = TRUE))
-
-plot_2a
 ```
 
 - How does household income level look like for each racial group over time?
 
 - How do household income disparities compare among different racial groups? 
+
 ---
 
 ```{r plot-bar, echo = FALSE, fig.width = 8, fig.length = 6, out.width = "75%"}
-plot_2b <- income_mean %>%
+income_mean %>%
   filter(year == 2019) %>%
   ggplot(
-    aes(x = income_dollars,
-        y = reorder(race, desc(race)))
+    aes(x = income_dollars, y = reorder(race, desc(race)))
     ) + 
   geom_bar(
     position = "fill", 
@@ -230,70 +273,77 @@ plot_2b <- income_mean %>%
     ) +
   geom_text(
     data = highest_perc_table, 
-    aes(y = race, 
-        label = paste0(round(percent, 3)*100)),
-        x = 0.45, size = 2.5,
-        color = "black",
-        nudge_x = 0, nudge_y = -0.45) +
+    aes(y = race, label = paste0(round(percent, 3) * 100)),
+    x = 0.45, 
+    size = 2.5,
+    color = "black",
+    nudge_y = -0.45
+    ) +
   geom_text(
     data = perc_21_40_perc_table, 
-    aes(y = race, 
-        label = paste0(round(percent, 3)*100)),
-        x = 0.65, size = 2.5,
-        color = "black",
-        nudge_x = 0, nudge_y = -0.45) +
+    aes(y = race, label = paste0(round(percent, 3) * 100)),
+    x = 0.65, 
+    size = 2.5,
+    color = "black",
+    nudge_y = -0.45
+    ) +
   geom_text(
     data = perc_41_60_perc_table, 
-    aes(y = race, 
-        label = paste0(round(percent, 3)*100)),
-        x = 0.80, size = 2.5,
-        color = "black",
-        nudge_x = 0, nudge_y = -0.45) +
+    aes(y = race, label = paste0(round(percent, 3) * 100)),
+    x = 0.80, 
+    size = 2.5,
+    color = "black",
+    nudge_y = -0.45
+    ) +
   geom_text(
     data = perc_61_80_perc_table, 
-    aes(y = race, 
-        label = paste0(round(percent, 3)*100)),
-        x = 0.92, size = 2.5,
-        color = "black",
-        nudge_x = 0, nudge_y = -0.45) +
+    aes(y = race, label = paste0(round(percent, 3) * 100)),
+    x = 0.92, 
+    size = 2.5,
+    color = "black",
+    nudge_y = -0.45
+    ) +
   geom_text(
     data = bottom_perc_table, 
-    aes(y = race, 
-        label = paste0(round(percent, 3)*100)),
-        x = 0.975, size = 2.5,
-        color = "black",
-        nudge_x = 0, nudge_y = -0.45) +
+    aes(y = race, label = paste0(round(percent, 3) * 100)),
+    x = 0.975, 
+    size = 2.5,
+    color = "black",
+    nudge_y = -0.45
+    ) +
   scale_fill_brewer(type = "seq", palette = "Blues", direction = -1) +
   labs(
     title = "Income Gap: How much do top quintile households earn compared to other quintiles?",
-    subtitle = "Proportion of income earned for each household quintile per race",
+    subtitle = "Proportion of income earned for each household quintile per race in 2019",
     x = "Percentage %", 
     y = "Race", 
     fill = "Income Quintile",
     caption = "Source: U.S. Census 2019 Data"
     ) +
   scale_colour_viridis_d() +
-  scale_x_continuous(labels = scales::label_number(big.mark = ",", 
-                                                   scale = 100, 
-                                                   suffix = "",
-                                                   prefix = ""),
-                     breaks = seq(-0.2, 1.2, 0.2)) +
-  # scale_x_continuous(labels = scales::percent_format(scale = 100)) +
+  scale_x_continuous(
+    labels = scales::label_number(
+      big.mark = ",", 
+      scale = 100, 
+      suffix = "", 
+      prefix = ""
+      ),
+    breaks = seq(-0.2, 1.2, 0.2)
+    ) +
+  guides(fill = guide_legend(reverse = TRUE)) +
   theme_minimal(base_size = 10) +
-  theme(text = element_text(size = 9),
-        axis.title.x = element_text(vjust = -2),
-        plot.caption = element_text(vjust = -3, hjust = 0)) +
-  guides(fill = guide_legend(reverse = TRUE))
-
-plot_2b
+  theme(
+    text = element_text(size = 9),
+    axis.title.x = element_text(vjust = -2),
+    plot.caption = element_text(vjust = -3, hjust = 0))
 ```
 
 - Which race seems to have the most income inequality within each of their own community?
 
 - How much do the top quintile households earn as compared to the bottom quintile for each race?
 
+---
 
-
-
+# Thank You!
 
 
