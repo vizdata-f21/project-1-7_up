@@ -39,14 +39,22 @@ Introduction to the question and what parts of the dataset are necessary to answ
 
 We first wanted to investigate how home ownership has changed over time, and 
 among different racial groups. We decided to use the `home_owner` dataset and 
-use the `year`, `race`, and `home_owner_pct` variables. 
+use the `year`, `race`, and `home_owner_pct` variables. We also wanted to 
+explore the housing bubble in 2006-2008 further as it was a major event that 
+affected homeownership for many years to come. We wanted to explore changes in
+homeownership percentage a few years before and after the crash and see which
+races have been particularly affected by it more. For this, we used the 
+`home_owner` dataset and use the `year`, `race`, and `home_owner_pct` variables.
 
 ### Approach
 
 (1-2 paragraphs)
-Describe what types of plots you are going to make to address your question.
-For each plot, provide a clear explanation as to why this plot (e.g. boxplot, barplot, histogram, etc.) is best for providing the information you are asking about. 
-The two plots should be of different types, and at least one of the two plots needs to use either color mapping or facets.
+As previously mentioned, apart from just a line plot, the grouped barplot does
+an efficient job in comparing 3 different variables where one is categorical.
+When making an animated plot, the benefit of a grouped barplot is that it makes 
+it very easy to see the exact percentages over time, which is ideal to see the 
+exact changes in homeownership percentages across the years and racial groups. 
+
 
 ### Analysis
 
@@ -120,55 +128,67 @@ home_owner %>%
 ```
 
 
-#### Plot 1.b
+#### Plot 1.b.1
 
-```{r race-wealth, echo = F}
-first_year <- race_wealth %>%
-  filter(type == "Average",
-         race != "Non-White",
-         year > 1980) %>%
-  group_by(race) %>%
-  filter(year == min(year))
+```{r static plot before/after 2008, echo = FALSE}
+ home_owner %>%
+  filter(year > "2003", year <= "2010") %>%
+  dplyr::group_by(year, race) %>%
+  ggplot(aes(x = as.factor(year), y = home_owner_pct, fill = race))+ 
+    geom_bar(width = 0.5, position="dodge", stat="identity") +
+  coord_flip() + 
+  labs(title = "Homeownership 3 years before and after '06/'07 Housing Bubble",
+       y = "Homeownership percentage",
+       x = "Year")+
+  geom_hline(aes(yintercept = 0.7207117), linetype = "dashed", alpha = 0.3)+
+  geom_hline(aes(yintercept = 0.4816776), linetype = "dashed", alpha = 0.3)+
+  geom_hline(aes(yintercept = 0.4930240), linetype = "dashed", alpha = 0.3) +
+  scale_fill_viridis_d()+
+  scale_y_continuous(labels = scales::percent_format(scale = 100))
 
-race_wealth %>%
-  filter(type == "Average",
-         race != "Non-White",
-         year > 1980) %>%
-  drop_na() %>%
-  group_by(race, year) %>%
-  ggplot(aes(x = year, y = wealth_family, color = race, shape = race)) +
-  geom_point(alpha = 0.5, size = 1.5) +
-  geom_line(size = 1) +
-  geom_text_repel(data = first_year,
-                  aes(label = race),
-                  direction = "y",
-                  nudge_y = 1000,
-                  size = 3,
-                  segment.linetype = "dotted") +
-  geom_vline(aes(xintercept = lowest_year), color = "grey") +
-  geom_vline(aes(xintercept = highest_year), color = "grey") +
-  scale_color_manual(values = c("#859a6a", "#ad6e72", "#5d7a96")) +
-  scale_y_continuous(labels = scales::label_number(big.mark = ",", 
-                                                   scale = 0.001, 
-                                                   suffix = "k",
-                                                   prefix = "$")) +
+```
+
+#### Plot 1.b.2
+
+```{r animated-plot pre-post crash, cache = TRUE, echo=FALSE}
+a <- home_owner %>%
+  filter(year >= "2003", year <= "2019") %>%
+  dplyr::group_by(year, race) %>%
+  ggplot(aes(x = race, y = home_owner_pct, fill = race))+ 
+    geom_bar(position = "dodge", stat = "identity") +
+  geom_text(aes(label=percent(home_owner_pct,accuracy=0.1)),
+            position="stack",vjust= 2)+
+  geom_point()+
+scale_fill_viridis_d() +
   labs(
     x = "Year",
-    y = "Average wealth per family",
-    title = "Average wealth over time",
-    subtitle = "by race",
-    caption = "Source: U.S. Census 2019 Data"
+    y = "Percent owning homes",
+    color = "Race",
+    shape = "Race",
+subtitle = "Homeownership 5-6 years before and after '06/'07 Housing Bubble by race"
   ) +
   theme_minimal() +
-  theme(legend.position = "none")
+  scale_y_continuous(labels = scales::percent_format(scale = 100)) +
+  transition_time(year)+
+  labs(title = "Year: {frame_time}")
+animate(a, end_pause = 30)
 ```
 
 ### Discussion
 
 (1-3 paragraphs)
-In the Discussion section, interpret the results of your analysis. Identify any trends revealed (or not revealed) by the plots.
-Speculate about why the data looks the way it does.
 
+
+Around 2007, the homeownership percentages started to decrease across all 
+racial groups(Black, Hispanic, White), which makes sense as it was the start
+of when there were a lot of home foreclosures. Treating 2007 as the baseline, 
+it is apparent that hispanic and black communities were significantly more 
+affected by the foreclosures than white communities. This is apparent from 
+the bar chart as there is a larger decrease in homeownership percentages for
+the two racial groups compared to the white demographic. Through the animated
+grouped bar chart, it can be noticed that for the most part that homeownership 
+percentages have not gone back to the levels at which it was before the housing 
+bubble, based on the most recent data collected at 2016.
 ## 2. How do household income levels compare between races and within each race?
 
 ### Introduction
