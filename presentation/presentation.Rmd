@@ -219,7 +219,7 @@ home_owner %>%
 
 .pull-right[
 
-```{r animated-plot-pre-post-crash, out.width = '90%', cache = TRUE, echo = F}
+```{r animated-plot-pre-post-crash, cache = TRUE, echo = F}
 knitr::include_graphics("animated-plot-pre-post-crash-1.gif")
 ```
 ]
