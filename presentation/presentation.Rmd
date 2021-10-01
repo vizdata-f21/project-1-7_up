@@ -142,7 +142,9 @@ home_owner %>%
   theme(legend.position = "none")
 ```
 
-```{r static-plot housing crash, echo=FALSE}
+---
+
+```{r static-plot-housing-crash, echo=FALSE}
  home_owner %>%
   filter(year > "2003", year <= "2010") %>%
   dplyr::group_by(year, race) %>%
@@ -159,7 +161,7 @@ home_owner %>%
   scale_y_continuous(labels = scales::percent_format(scale = 100))
 ```
 
-```{r animated-plot housing crash, echo=FALSE}
+```{r animated-plot-housing-crash, echo=FALSE}
 a <- home_owner %>%
   filter(year >= "2003", year <= "2019") %>%
   dplyr::group_by(year, race) %>%

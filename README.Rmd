@@ -37,9 +37,6 @@ each race during a particular time period.
 
 ### Introduction
 
-(1-2 paragraphs)
-Introduction to the question and what parts of the dataset are necessary to answer the question. Also discuss why you’re interested in this question.
-
 We want to investigate how homeownership rates have changed over time, and how 
 homeownership trends vary by race. We are interested in understanding 
 homeownership trends across racial groups because homeownership is one of the 
@@ -58,7 +55,6 @@ For this, we used the`home_owner` dataset and use the `year`, `race`, and
 
 ### Approach
 
-(1-2 paragraphs)
 As previously mentioned, apart from just a line plot, the grouped barplot does
 an efficient job in comparing 3 different variables where one is categorical.
 When making an animated plot, the benefit of a grouped barplot is that it makes 
@@ -80,13 +76,7 @@ exact changes in homeownership percentages across the years and racial groups.
 
 ### Analysis
 
-(2-3 code blocks, 2 figures, text/code comments as needed)
-In this section, provide the code that generates your plots. Use scale functions to provide nice axis labels and guides.
-You are welcome to use theme functions to customize the appearance of your plot, but you are not required to do so.
-All plots must be made with ggplot2. Do not use base R or lattice plotting functions.
-
-
-```{r find-peaks, include = F}
+```{r find-peaks}
 lowest_year <- home_owner %>%
   group_by(year) %>%
   summarize(mean_pct_unweighted = mean(home_owner_pct)) %>%
@@ -108,7 +98,7 @@ last_year <- home_owner %>%
 
 #### Plot 1.a
 
-```{r first-look, echo = F}
+```{r first-look}
 home_owner %>%
   ggplot(
     aes(x = year, y = home_owner_pct, color = race, shape = race)
@@ -151,7 +141,7 @@ home_owner %>%
 ```
 
 #### Plot 1.b
-```{r race-wealth, echo = F}
+```{r race-wealth}
 first_year <- race_wealth %>%
   filter(type == "Average",
          race != "Non-White",
@@ -193,7 +183,7 @@ race_wealth %>%
 
 #### Plot 1.b.1
 
-```{r static plot before/after 2008, echo = FALSE}
+```{r static-plot-beforeafter-2008}
  home_owner %>%
   filter(year > "2003", year <= "2010") %>%
   dplyr::group_by(year, race) %>%
@@ -214,7 +204,7 @@ race_wealth %>%
 
 
 #### Plot 1.b.2
-```{r r animated-plot pre-post-crash, cache = TRUE, echo=F}
+```{r r animated-plot-pre-post-crash, cache = TRUE}
 a <- home_owner %>%
   filter(year >= "2003", year <= "2019") %>%
   dplyr::group_by(year, race) %>%
@@ -239,8 +229,6 @@ animate(a, end_pause = 30)
 ```
 
 ### Discussion
-
-(1-3 paragraphs)
 
 The line plot shows that there is a consistent racial disparity in homeownership
 percentages between Whites and Hispanics and Whites and Blacks. Upwards of 65%
@@ -309,7 +297,7 @@ readers.
 
 ### Analysis
 
-```{r data-wrangle-2, include = F}
+```{r data-wrangle-2}
 income_mean <- income_mean %>%
   filter(
     !str_detect(race, "Combination"),
@@ -335,7 +323,7 @@ income_mean <- income_mean %>%
     race = ordered(race, c("White", "Black", "Hispanic", "Asian")))
 ```
 
-```{r perc-plot, include = F}
+```{r perc-plot}
 make_perc_table <- function(quintile) {
   return(
     income_mean %>%
@@ -356,7 +344,7 @@ bottom_perc_table <- make_perc_table("Lowest")
 
 #### Plot 2.a
 
-```{r plot-overtime, echo = F, fig.width = 8, fig.length = 6}
+```{r plot-overtime, fig.width = 8, fig.length = 6}
 income_mean %>%
   ggplot(
     aes(
@@ -391,7 +379,7 @@ income_mean %>%
 
 #### Plot 2.b
 
-```{r plot-bar, echo = F, fig.width = 8, fig.length = 6}
+```{r plot-bar, fig.width = 8, fig.length = 6}
 income_mean %>%
   filter(year == 2019) %>%
   ggplot(
