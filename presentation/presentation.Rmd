@@ -55,6 +55,17 @@ Class: middle, inverse, center
 
 ### Data
 
+```{r housing-data, echo = F}
+kable(home_owner %>% slice(1:5))
+```
+
+
+```{r income-data, echo = F}
+kable(income_mean %>% slice(1:5))
+```
+
+
+
 ---
 
 ### 1. Homeownership Rate and Wealth
