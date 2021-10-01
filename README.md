@@ -42,13 +42,6 @@ variables.
 
 ### Approach
 
-As previously mentioned, apart from just a line plot, the grouped
-barplot does an efficient job in comparing 3 different variables where
-one is categorical. When making an animated plot, the benefit of a
-grouped barplot is that it makes it very easy to see the exact
-percentages over time, which is ideal to see the exact changes in
-homeownership percentages across the years and racial groups.
-
 When it comes to plotting information from 3 different variables, that
 includes a categorical variable, some of the most efficient plots would
 be a line plot and barplot. Line plots are best for displaying the
@@ -62,7 +55,11 @@ barplot does an efficient job in comparing 3 different variables where
 one is categorical. When making an animated plot, the benefit of a
 grouped barplot is that it makes it very easy to see the exact
 percentages over time, which is ideal to see the exact changes in
-homeownership percentages across the years and racial groups.
+homeownership percentages across the years and racial groups. To make
+the bar plot easier to read, we added grey, vertical dotted lines with
+2007 serving as the baseline for comparison. This makes it easier to
+determine whether or not the homeownership percentage value has
+decreased or increased relative to 2007
 
 ### Analysis
 
@@ -179,7 +176,7 @@ race_wealth %>%
 #### Plot 1.c
 
 ``` r
- home_owner %>%
+home_owner %>%
   filter(year > "2003", year <= "2010") %>%
   dplyr::group_by(year, race) %>%
   dplyr::summarise(avg_h_o = mean(home_owner_pct), .groups = 'drop') %>%
@@ -189,13 +186,20 @@ race_wealth %>%
   geom_hline(aes(yintercept = 0.4816776), linetype = "dashed", alpha = 0.3) +
   geom_hline(aes(yintercept = 0.4930240), linetype = "dashed", alpha = 0.3) +
   scale_fill_manual(values = c("#859a6a", "#ad6e72", "#5d7a96")) +
-  theme_bw() +
-  scale_y_continuous(labels = scales::percent_format(scale = 100))
+  scale_y_continuous(labels = scales::percent_format(scale = 100)) +
+  labs(
+    x = "Year",
+    y = "Owning homes",
+    color = "Race",
+    shape = "Race",
+    subtitle = "Homeownership 5-6 years before and after '06/'07 Housing Bubble by race"
+  ) +
+  theme_minimal()
 ```
 
 ![](README_files/figure-gfm/static-plot-before-after-2008-1.png)<!-- -->
 
-#### Plot 1.b.2
+#### Plot 1.d
 
 ``` r
 home_owner %>%
