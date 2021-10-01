@@ -193,7 +193,7 @@ race_wealth %>%
 
 #### Plot 1.b.1
 
-```{r static plot before/after 2008, echo = FALSE}
+```{r static plot before/after 2008}
  home_owner %>%
   filter(year > "2003", year <= "2010") %>%
   dplyr::group_by(year, race) %>%
@@ -206,7 +206,7 @@ race_wealth %>%
   geom_hline(aes(yintercept = 0.7207117), linetype = "dashed", alpha = 0.3)+
   geom_hline(aes(yintercept = 0.4816776), linetype = "dashed", alpha = 0.3)+
   geom_hline(aes(yintercept = 0.4930240), linetype = "dashed", alpha = 0.3) +
-  scale_fill_viridis_d(alpha = 0.7)+
+  scale_fill_manual(values = c("#859a6a", "#ad6e72", "#5d7a96")) +
   theme_bw() +
   scale_y_continuous(labels = scales::percent_format(scale = 100))
 
@@ -214,7 +214,7 @@ race_wealth %>%
 
 
 #### Plot 1.b.2
-```{r r animated-plot pre-post-crash, cache = TRUE, echo=F}
+```{r r animated-plot pre-post-crash, cache = TRUE}
 a <- home_owner %>%
   filter(year >= "2003", year <= "2019") %>%
   dplyr::group_by(year, race) %>%
@@ -223,7 +223,7 @@ a <- home_owner %>%
   geom_text(aes(label=percent(home_owner_pct,accuracy=0.1)),
             position="stack",vjust= 2)+
   geom_point()+
-scale_fill_viridis_d() +
+  scale_fill_manual(values = c("#859a6a", "#ad6e72", "#5d7a96")) +
   labs(
     x = "Year",
     y = "Percent owning homes",
