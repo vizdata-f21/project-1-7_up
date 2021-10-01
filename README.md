@@ -1,7 +1,7 @@
 Visualizing Income Inequality in the United States
 ================
-Team 7-Up \[Blossom Mojekwu, Kartik Chamarti, Margaret Reed, Phillip
-Harmadi\]
+7-Up <br> Blossom Mojekwu, Kartik Chamarti, Margaret Reed, Phillip
+Harmadi
 
 ## Introduction
 
