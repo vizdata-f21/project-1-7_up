@@ -176,20 +176,17 @@ race_wealth %>%
 
 ![](README_files/figure-gfm/race-wealth-1.png)<!-- -->
 
-#### Plot 1.b.1
+#### Plot 1.c
 
 ``` r
  home_owner %>%
   filter(year > "2003", year <= "2010") %>%
   dplyr::group_by(year, race) %>%
-  ggplot(aes(x = as.factor(year), y = home_owner_pct, fill = race))+ 
-    geom_bar(width = 0.5, position="dodge", stat="identity") +
-  coord_flip() + 
-  labs(title = "Homeownership 3 years before and after '06/'07 Housing Bubble",
-       y = "Homeownership percentage",
-       x = "Year")+
-  geom_hline(aes(yintercept = 0.7207117), linetype = "dashed", alpha = 0.3)+
-  geom_hline(aes(yintercept = 0.4816776), linetype = "dashed", alpha = 0.3)+
+  dplyr::summarise(avg_h_o = mean(home_owner_pct), .groups = 'drop') %>%
+  ggplot(aes(x = as.factor(year), y = avg_h_o, fill = race)) + 
+  geom_bar(width = 0.5, position = "dodge", stat = "identity") +
+  geom_hline(aes(yintercept = 0.7207117), linetype = "dashed", alpha = 0.3) +
+  geom_hline(aes(yintercept = 0.4816776), linetype = "dashed", alpha = 0.3) +
   geom_hline(aes(yintercept = 0.4930240), linetype = "dashed", alpha = 0.3) +
   scale_fill_manual(values = c("#859a6a", "#ad6e72", "#5d7a96")) +
   theme_bw() +
@@ -201,27 +198,26 @@ race_wealth %>%
 #### Plot 1.b.2
 
 ``` r
-a <- home_owner %>%
-  filter(year >= "2003", year <= "2019") %>%
+home_owner %>%
+  filter(year >= "2003", year <= "2012") %>%
   dplyr::group_by(year, race) %>%
   ggplot(aes(x = race, y = home_owner_pct, fill = race))+ 
     geom_bar(position = "dodge", stat = "identity") +
-  geom_text(aes(label=percent(home_owner_pct,accuracy=0.1)),
+  geom_text(aes(label = percent(home_owner_pct, accuracy = 0.1)),
             position="stack",vjust= 2)+
-  geom_point()+
+  geom_point() +
   scale_fill_manual(values = c("#859a6a", "#ad6e72", "#5d7a96")) +
+  scale_y_continuous(labels = scales::percent_format(scale = 100)) +
   labs(
     x = "Year",
     y = "Percent owning homes",
     color = "Race",
     shape = "Race",
-subtitle = "Homeownership 5-6 years before and after '06/'07 Housing Bubble by race"
+    subtitle = "Homeownership 5-6 years before and after '06/'07 Housing Bubble by race"
   ) +
   theme_minimal() +
-  scale_y_continuous(labels = scales::percent_format(scale = 100))+
-  transition_time(year)+
-  labs(title = "Year: {frame_time}")
-animate(a, end_pause = 30)
+  transition_time(year) +
+  labs(title = "Year: {round(frame_time)}")
 ```
 
 ![](README_files/figure-gfm/animated-plot-pre-post-crash-1.gif)<!-- -->
