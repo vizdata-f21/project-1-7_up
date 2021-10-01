@@ -13,7 +13,9 @@ library(tidyverse)
 library(viridis)
 library(reprex)
 library(gganimate)
+library(gifski)
 library(ggpubr)
+library(magick)
 ```
 
 ```{r load-data, message = F}
@@ -70,53 +72,49 @@ home_owner %>%
   theme_minimal() +
   scale_y_continuous(labels = scales::percent_format(scale = 100))
 ```
-
-
-```{r second-look- data}
-c <- home_owner %>%
-  filter(year > "1997") %>%
-  mutate(flag = if_else(
-    year >= 2008,
-    TRUE,
-    FALSE
-  )) %>%
-  dplyr::group_by(year, race, flag) %>%
+```{r static plot for before and after 2008 by 5 years}
+ home_owner %>%
+  filter(year > "2003", year <= "2010") %>%
+  dplyr::group_by(year, race) %>%
   dplyr::summarise(avg_h_o = mean(home_owner_pct)) %>%
-  ggplot(aes(x = flag, y = avg_h_o, fill = race))+ 
-    geom_bar(position="dodge", stat="identity") +
+  ggplot(aes(x = as.factor(year), y = avg_h_o, fill = race))+ 
+    geom_bar(width = 0.5, position="dodge", stat="identity") +
   coord_flip() +
+  labs(title = "Homeownership 3 years before and after '06/'07 Housing Bubble",
+       x = "Homeownership percentage",
+       y = "Year")+
+  geom_hline(aes(yintercept = 0.7207117), linetype = "dashed", alpha = 0.3)+
+  geom_hline(aes(yintercept = 0.4816776), linetype = "dashed", alpha = 0.3)+
+  geom_hline(aes(yintercept = 0.4930240), linetype = "dashed", alpha = 0.3) +
+  scale_fill_viridis_d()
+```
+
+
+```{r second-look-data, cache = TRUE}
+
+home_owner %>%
+  filter(year >= "2003", year <= "2012") %>%
+  dplyr::group_by(year, race) %>%
+  ggplot(aes(x = race, y = home_owner_pct, fill = race))+ 
+    geom_bar(position = "dodge", stat = "identity") +
+  geom_text(aes(label=percent(home_owner_pct,accuracy=0.1)),
+            position="stack",vjust= 2)+
+  geom_point()+
+scale_fill_viridis_d() +
+  labs(
+    x = "Year",
+    y = "Percent owning homes",
+    color = "Race",
+    shape = "Race",
+subtitle = "Homeownership 5-6 years before and after '06/'07 Housing Bubble by race"
+  ) +
+  theme_minimal() +
+  scale_y_continuous(labels = scales::percent_format(scale = 100)) +
   transition_time(year)+
   labs(title = "Year: {frame_time}")
 
-a <- home_owner %>%
-  filter(year > "1997", year <= "2008") %>%
-  dplyr::group_by(year, race) %>%
-  dplyr::summarise(avg_h_o = mean(home_owner_pct)) %>%
-  ggplot(aes(x = race, y = avg_h_o, fill = race))+ 
-    geom_bar(position="dodge", stat="identity") +
-  coord_flip() +
-  transition_time(year)+
-  labs(title = "Year: {frame_time}")+
-  animate(end_pause)
 
-b <- home_owner %>%
-  filter(year >= "2008") %>%
-  dplyr::group_by(year, race) %>%
-  dplyr::summarise(avg_h_o = mean(home_owner_pct)) %>%
-  ggplot(aes(x = race, y = avg_h_o, fill = race))+ 
-    geom_bar(position="dodge", stat="identity") +
-  coord_flip()
 
-figure <- ggarrange(a, b,
-                    labels = c("Pre 2008 Housing Crisis", 
-                               "Post 2008 Housing Crisis"),
-                    ncol = 1, nrow = 2)
-
-#make the final frame stay still
-  #for post 2008, add 0 data so that it can still run and merge.
-#combine the other plot and add the vline or hline
-#write the write up
-#add to the ppt
 ```
 
 ```{r explore-homeowner-with-wealth}
