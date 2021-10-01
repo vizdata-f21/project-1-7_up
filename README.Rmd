@@ -191,9 +191,9 @@ race_wealth %>%
 
 ```
 
-#### Plot 1.b.2
 
-```{r animated-plot pre-post crash, cache = TRUE, echo=FALSE}
+#### Plot 1.b.2
+```{r r animated-plot pre-post-crash, cache = TRUE, echo=F}
 a <- home_owner %>%
   filter(year >= "2003", year <= "2019") %>%
   dplyr::group_by(year, race) %>%

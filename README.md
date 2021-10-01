@@ -69,7 +69,7 @@ R or lattice plotting functions.
 
 #### Plot 1.b.2
 
-![](README_files/figure-gfm/animated-plot%20pre-post%20crash-1.gif)<!-- -->
+![](README_files/figure-gfm/r%20animated-plot%20pre-post-crash-1.gif)<!-- -->
 
 ### Discussion
 
