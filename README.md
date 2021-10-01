@@ -29,16 +29,22 @@ interested in this question.
 
 We first wanted to investigate how home ownership has changed over time,
 and among different racial groups. We decided to use the `home_owner`
-dataset and use the `year`, `race`, and `home_owner_pct` variables.
+dataset and use the `year`, `race`, and `home_owner_pct` variables. We
+also wanted to explore the housing bubble in 2006-2008 further as it was
+a major event that affected homeownership for many years to come. We
+wanted to explore changes in homeownership percentage a few years before
+and after the crash and see which races have been particularly affected
+by it more. For this, we used the `home_owner` dataset and use the
+`year`, `race`, and `home_owner_pct` variables.
 
 ### Approach
 
-(1-2 paragraphs) Describe what types of plots you are going to make to
-address your question. For each plot, provide a clear explanation as to
-why this plot (e.g. boxplot, barplot, histogram, etc.) is best for
-providing the information you are asking about. The two plots should be
-of different types, and at least one of the two plots needs to use
-either color mapping or facets.
+(1-2 paragraphs) As previously mentioned, apart from just a line plot,
+the grouped barplot does an efficient job in comparing 3 different
+variables where one is categorical. When making an animated plot, the
+benefit of a grouped barplot is that it makes it very easy to see the
+exact percentages over time, which is ideal to see the exact changes in
+homeownership percentages across the years and racial groups.
 
 ### Analysis
 
@@ -57,13 +63,28 @@ R or lattice plotting functions.
 
 ![](README_files/figure-gfm/race-wealth-1.png)<!-- -->
 
+#### Plot 1.b.1
+
+![](README_files/figure-gfm/static%20plot%20before/after%202008-1.png)<!-- -->
+
+#### Plot 1.b.2
+
 ### Discussion
 
-(1-3 paragraphs) In the Discussion section, interpret the results of
-your analysis. Identify any trends revealed (or not revealed) by the
-plots. Speculate about why the data looks the way it does.
+(1-3 paragraphs)
 
-## 2\. How do household income levels compare between races and within each race?
+Around 2007, the homeownership percentages started to decrease across
+all racial groups(Black, Hispanic, White), which makes sense as it was
+the start of when there were a lot of home foreclosures. Treating 2007
+as the baseline, it is apparent that hispanic and black communities were
+significantly more affected by the foreclosures than white communities.
+This is apparent from the bar chart as there is a larger decrease in
+homeownership percentages for the two racial groups compared to the
+white demographic. Through the animated grouped bar chart, it can be
+noticed that for the most part that homeownership percentages have not
+gone back to the levels at which it was before the housing bubble, based
+on the most recent data collected at 2016. \#\# 2. How do household
+income levels compare between races and within each race?
 
 ### Introduction
 
