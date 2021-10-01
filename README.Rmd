@@ -1,6 +1,6 @@
 ---
 title: Visualizing Income Inequality in the United States
-author: 7-Up- Blossom Mojekwu, Kartik Chamarti, Margaret Reed, Phillip Harmadi
+author: Team 7-Up [Blossom Mojekwu, Kartik Chamarti, Margaret Reed, Phillip Harmadi]
 output: github_document
 ---
 
