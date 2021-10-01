@@ -21,6 +21,9 @@ library(knitr)
 library(viridis)
 library(xaringanthemer)
 library(ggrepel)
+library(scales)
+library(gganimate)
+
 ```
 
 ```{r setup, include = FALSE}
