@@ -179,7 +179,7 @@ race_wealth %>%
 #### Plot 1.c
 
 ``` r
-home_owner %>%
+ home_owner %>%
   filter(year > "2003", year <= "2010") %>%
   dplyr::group_by(year, race) %>%
   dplyr::summarise(avg_h_o = mean(home_owner_pct), .groups = 'drop') %>%
@@ -188,21 +188,14 @@ home_owner %>%
   geom_hline(aes(yintercept = 0.7207117), linetype = "dashed", alpha = 0.3) +
   geom_hline(aes(yintercept = 0.4816776), linetype = "dashed", alpha = 0.3) +
   geom_hline(aes(yintercept = 0.4930240), linetype = "dashed", alpha = 0.3) +
-  scale_y_continuous(labels = scales::percent_format(scale = 100)) +
-  coord_flip() +
   scale_fill_manual(values = c("#859a6a", "#ad6e72", "#5d7a96")) +
-  labs(
-    title = "Homeownership 3 years before and after '06/'07 Housing Bubble",
-    y = "Homeownership percentage",
-    x = "Year", 
-    fill = 'Race'
-    ) +
-  theme_minimal()
+  theme_bw() +
+  scale_y_continuous(labels = scales::percent_format(scale = 100))
 ```
 
-![](README_files/figure-gfm/static-plot-beforeafter-2008-1.png)<!-- -->
+![](README_files/figure-gfm/static-plot-before-after-2008-1.png)<!-- -->
 
-#### Plot 1.d
+#### Plot 1.b.2
 
 ``` r
 home_owner %>%
