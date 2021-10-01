@@ -8,6 +8,9 @@ output: github_document
 library(tidyverse)
 library(viridis)
 library(ggrepel)
+library(scales)
+library(magick)
+library(gganimate)
 ```
 
 ```{r load-data, include = FALSE}
@@ -208,10 +211,10 @@ scale_fill_viridis_d() +
 subtitle = "Homeownership 5-6 years before and after '06/'07 Housing Bubble by race"
   ) +
   theme_minimal() +
-  scale_y_continuous(labels = scales::percent_format(scale = 100)) 
-#  transition_time(year)+
- # labs(title = "Year: {frame_time}")
-#animate(a, end_pause = 30)
+  scale_y_continuous(labels = scales::percent_format(scale = 100))+
+  transition_time(year)+
+  labs(title = "Year: {frame_time}")
+animate(a, end_pause = 30)
 ```
 
 ### Discussion
