@@ -226,6 +226,7 @@ knitr::include_graphics("animated-plot-pre-post-crash-1.gif")
 ```
 ]
 
+
 ---
 
 ### 2. Household Income 
